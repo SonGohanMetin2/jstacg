@@ -1,0 +1,59 @@
+/* Stylesheet for the AJAX-TACG client
+ * by Son Gohan
+ */
+.parname {
+	font-weight: bold;
+	color: #000066;
+	border: 2px ridge blue;
+	background-color: #DDDDFF;
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+} 
+#header {
+	text-align: center;
+	background-color: #CCCCFF;
+}
+#pg_parameters {
+	float: left;
+	width: 50%;
+	padding: 2px;
+	border: 1px dashed; 
+}
+#pg_parameters p {
+	padding: 1px 0px 1px 1px;
+	margin: 1px 0px 1px 1px;
+	height: 25px;
+}
+#pg_main_prop {
+	padding: 3px;
+	background-color: #AAFFAA;
+}
+#status_table input {
+	width: 50px;
+	padding: 1px;
+}
+#quests {
+	float: left;
+	width: 45%;
+	margin: 0px 0px 0px 5px;
+	padding: 3px;
+	border: 1px dashed;
+}
+#quests input + label {
+	display: inline-block;
+	width: 160px;
+	padding: 1px;
+}
+#quests input[type="checkbox"]:checked + label {
+	background-color: #AAFFAA;
+}
+
+#weapon {
+	float: left;
+	width: 45%;
+	border: 1px dashed;
+	margin: 10px 0px 10px 5px;
+	padding: 20px 10px;
+	text-align: center;
+}
