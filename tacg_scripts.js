@@ -152,6 +152,15 @@ function checkSkillLevel(element) {
 			element.value = 0;
 	}
 }
+
+function fixPerc(element) {
+	if(!element.value) return;
+	if(isNaN(element.value) && isNaN(element.value.substring(0,element.value.length-1))) {
+		element.value = '0%';
+		return;
+	}
+	element.value = Math.floor(element.value.replace('%',''))+'%';
+}
 /////////////////////////////////// AJAX FUNCTIONS //////////////////////////////////
 /* @param opts.str The string containing parameter of the GET request
  * @param opts.url The url of the server-side script (optional, default=globals.serverScriptURL)
@@ -174,7 +183,10 @@ function loadXML(opts) {
 	xmlhttp.send();
 }
 
+// big TODO: this function gets called whenever an UI component is changed.
 function calculateAtk() {
+	return;
+
 	// compose parameter string
 	var classpg = encodeURIComponent(document.getElementById('classpg_select').value);
 	var jobpg = encodeURIComponent(document.getElementById('jobpg_select').value);
@@ -183,7 +195,7 @@ function calculateAtk() {
 	var parstr = 'classpg='+classpg+'&jobpg='+jobpg+'&levelpg='+levelpg;
 
 	return loadXML({
-		str: this.parstr,
+		str: parstr,
 		func: function () {
 			// TODO
 			//if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 

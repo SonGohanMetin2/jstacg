@@ -16,7 +16,7 @@
 }
 #pg_parameters {
 	float: left;
-	width: 50%;
+	width: 45%;
 	padding: 2px;
 	/*border: 1px dashed; */
 }
@@ -48,7 +48,6 @@
 #quests input[type="checkbox"]:checked + label {
 	background-color: #AAFFAA;
 }
-
 #weapon {
 	float: left;
 	width: 45%;
@@ -56,4 +55,17 @@
 	margin: 10px 0px 10px 5px;
 	padding: 20px 10px;
 	text-align: center;
+}
+#bonus {
+	float: left;
+	width: 100%;
+	margin: 5px 0px;
+	text-align: center;
+}
+#bonus_table .parname {
+	width: 200px;
+}
+#bonus_table input {
+	display: inline-block;
+	width: 50px;
 }

@@ -23,7 +23,7 @@
 </head>
 
 <body>
-  <div id="container">
+  <div id="container" onchange="calculateAtk()">
     <!-- +++++++++++++++++++++ HEADER +++++++++++++++++++++++++ -->
     <div id="header">
       <h2>Theoretical Attack Calculus Gear</h2>
@@ -41,8 +41,8 @@
                <option value="ninja">Ninja</option>
                <option value="shaman">Shamano/a</option>
             </select>
-            <input type='radio' name='sex' value='male' checked='checked'>M
-            <input type='radio' name='sex' value='female'>F
+            <input type='radio' name='sex' value='male' checked='checked' />M
+            <input type='radio' name='sex' value='female' />F
           </p>
         </form>
       
@@ -120,10 +120,28 @@
       </form>
     </div>
 
+    <div id="bonus">
+      <table id="bonus_table">
+        <tr>
+	  <th><span class="parname">Forte contro Mostri</span></th>
+	  <td><input id="vsmob" type="text" onchange="fixPerc(this)" /></td>
+	</tr>
+	<tr>
+	  <th><span class="parname">Forte contro Mezzi</span></th>
+	  <td><input id="vshuman" type="text" onchange="fixPerc(this)" /></td>
+	</tr>
+	<tr>
+	  <th><span class="parname">Danni Medi</span></th>
+	  <td><input id="averagedmg" type="text" onchange="fixPerc(this)" /></td>
+	</tr>
+	<tr>
+	  <th><span class="parname">Bonus Attacco</span></th>
+	  <td><input id="bonusatk" type="text" /></td>
+	</tr>
+      </table>
 
-    <div style="position:absolute; bottom:0px;">
-    <button onclick='calculateAtk()'>test</button>
     </div>
+
 
   <!-- Give initial value to Specializ. -->
   <script>setJobPG(document.getElementById('classpg_select').value);</script>
