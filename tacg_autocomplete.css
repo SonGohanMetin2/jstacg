@@ -1,6 +1,7 @@
 /* highlight results */
 .ui-autocomplete span.hl_results {
     background-color: #ffff66;
+    color: #000066;
 }
  
 /* loading - the AJAX indicator */

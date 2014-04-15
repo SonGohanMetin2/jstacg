@@ -10,18 +10,33 @@
 	width: 100px;
 	text-align: center;
 } 
+.resname {
+	font-weight: bold;
+	font-size: 70%;
+	color: green;
+	border: 2px ridge green;
+	background-color: #DDFFDD;
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+} 
 #container {
 	overflow: hidden;
 }
 #header {
 	text-align: center;
+	color: #000066;
 	background-color: #CCCCFF;
+	padding: 1px 0px;
 }
 #pg_parameters {
 	float: left;
-	width: auto;
+	width: 45%;
 	padding: 2px;
 	/*border: 1px dashed; */
+}
+#pg_parameters input {
+	color: #000066;
 }
 #pg_parameters p {
 	padding: 1px 0px 1px 1px;
@@ -29,6 +44,7 @@
 	height: 25px;
 }
 #pg_main_prop {
+	width: auto;
 	padding: 3px;
 	background-color: #AAFFAA;
 }
@@ -59,6 +75,34 @@
 	padding: 20px 10px;
 	text-align: center;
 }
+#results {
+	width: 90%;
+	margin: 5px;
+	text-align: center;
+	/*border: 1px solid #000066;*/
+}
+#results_table {
+	width: 100%;
+	vertical-align: middle;
+}
+#results_table th {
+	display: table-cell;
+	vertical-align: middle;
+	width: 120px;
+	height: 40px;
+	padding: 1px;
+	margin: 3px;
+}
+#results_table td {
+	display: table-cell;
+	color: #004400;
+	vertical-align: middle;
+	border: 2px ridge #004400;
+	width: 80px;
+	height: 40px;
+	padding: 1px;
+	margin: 3px;
+}
 #bonus {
 	float: left;
 	width: 100%;
@@ -87,10 +131,17 @@
 	width: auto;
 
 }
+#enemyskill {
+	background-color: #FFFF77;
+	padding: 3px;
+}
 #enemyskill span.label {
 	display: inline-block;
-	width: 100px;
+	width: 70px;
 }
 #enemyskill input[type="text"] {
 	width: 50px;
+}
+#enemyskill input[type="radio"]:checked + label {
+	font-weight: bold;
 }

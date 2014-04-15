@@ -42,8 +42,9 @@
   <div id="container" onchange="calculateAtk()">
     <!-- +++++++++++++++++++++ HEADER +++++++++++++++++++++++++ -->
     <div id="header">
-      <h2>Theoretical Attack Calculus Gear</h2>
-      <h3 style="font-size:80%;">by Draciel & Son Gohan</h3>
+      <p style="font-weight: bold; font-size: 120%; margin: 1px 0 0 0; padding: 0;">~~~~ Metin2 ~~~~</p>
+      <h2 style="padding: 0; margin: 1px;">Theoretical Attack Calculus Gear</h2>
+      <h3 style="font-size:80%;">by Son Gohan & Draciel</h3>
     </div>
 
     <!-- +++++++++++++++++++++ PARAMETERS +++++++++++++++++++++++++ -->
@@ -116,7 +117,7 @@
     <!-- +++++++++++++++++++++ WEAPON +++++++++++++++++++++++++ -->
     <div id="weapon" class="ui-widget">
       <form action=''>
-         <label for="weapon_name">Weapon:
+         <label for="weapon_name"><span class="parname" style="width: 100%; font-weight: normal; margin: 0 0 2px 0;">Arma:</span>
            <input id="weapon_name"type="text" style="width: 100%;" onkeyup="showWeaponHint(this.value)" />
 	 </label>
 	 <div style="text-align: left;">
@@ -136,6 +137,34 @@
       </form>
     </div>
 
+    <!-- +++++++++++++++++++++ RESULTS +++++++++++++++++++++++++ -->
+    <div id="results">
+      <table id="results_table">
+        <tr>
+	  <th class="resname" style="width: 100%; font-size: 100%; height: auto; margin: 1px;" colspan=8>Risultati:</th>
+	</tr>
+        <tr>
+          <th class="resname">Attacco base</th><td id="res_base_atk"></td>
+          <th class="resname">Attacco arma</th><td id="res_weapon_atk"></td>
+          <th class="resname">Danno finale teorico</th><td id="res_final_theo_atk"></td>
+          <th class="resname">Danno finale effettivo</th><td id="res_final_eff_atk"></td>
+        </tr>
+        <tr>
+          <th class="resname">Danno finale teorico (con bonus)</th><td id="res_final_theo_atk_bonus"></td>
+          <th class="resname">Danno finale effettivo (con bonus)</th><td id="res_final_eff_atk_bonus"></td>
+          <th class="resname">Danni/secondo a piedi (vs Mob)</th><td id="res_dps_feet_mob"></td>
+          <th class="resname">Danni/secondo a cavallo (vs Mob)</th><td id="res_dps_horse_mob"></td>
+        </tr>
+        <tr>
+          <th class="resname">Danni/secondo a piedi (vs PG)</th><td id="res_dps_feet_pg"></td>
+          <th class="resname">Danni/secondo a cavallo (vs PG)</th><td id="res_dps_horse_pg"></td>
+          <th class="resname">Danno trafiggente (vs Mob)</th><td id="res_pierce_mob"></td>
+         <th class="resname">Danno trafiggente (vs PG)</th> <td id="res_pierce_pg"></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- +++++++++++++++++++++ BONUS +++++++++++++++++++++++++ -->
     <div id="bonus">
       <table id="bonus_table">
         <tr>
@@ -167,7 +196,7 @@
         <form id="enemy_skill" action='' onchange="updateEnemySkillInput()" onclick="updateEnemySkillInput()">
           <p style="font-weight: bold; margin: 1px 0px 2px 2px;">Skill nemica:</p>
           <label>
-          <input type="radio" class="deselectable" name="enemy_skill" value="blessing" /><span class="label">Benedizione</span>
+          <input type="radio" class="deselectable" name="enemy_skill" value="blessing" /><span class="label">Benediz.</span>
           </label>
           <input type="text" name="blessing_lv" onchange="checkSkillLevel(this)" /><br>
           <label>
@@ -178,9 +207,11 @@
           <input type="radio" class="deselectable" name="enemy_skill" value="frenzy" /><span class="label">Estasi</span>
           </label>
           <input type="text" name="frenzy_lv" onchange="checkSkillLevel(this)" /><br>
+          <label>
+          <input type="radio" class="deselectable" name="enemy_skill" value="darkprotection" /><span class="label" style="width: 125px;">Protez. Oscura</span><br>
+          </label>
         </form>
       </div>
-
     </div>
 
 
