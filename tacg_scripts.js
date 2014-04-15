@@ -161,6 +161,27 @@ function fixPerc(element) {
 	}
 	element.value = Math.floor(element.value.replace('%',''))+'%';
 }
+
+function updateEnemySkillInput() {
+	switch($('input[name=enemy_skill]:checked').val()) {
+	
+	case 'blessing':
+		$('input[name=blessing_lv]').removeAttr('disabled');
+		$('input[name=fear_lv], input[name=frenzy_lv]').attr('disabled','disabled');
+		break;
+	case 'fear':
+		$('input[name=fear_lv]').removeAttr('disabled');
+		$('input[name=blessing_lv], input[name=frenzy_lv]').attr('disabled','disabled');
+		break;
+	case 'frenzy':
+		$('input[name=frenzy_lv]').removeAttr('disabled');
+		$('input[name=blessing_lv], input[name=fear_lv]').attr('disabled','disabled');
+		break;
+	default:
+		$('input[name=blessing_lv], input[name=fear_lv], input[name=frenzy_lv]').attr('disabled','disabled');
+		break;
+	}
+}
 /////////////////////////////////// AJAX FUNCTIONS //////////////////////////////////
 /* @param opts.str The string containing parameter of the GET request
  * @param opts.url The url of the server-side script (optional, default=globals.serverScriptURL)

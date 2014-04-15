@@ -19,6 +19,22 @@
 			})
 		});
 	}
+	// trick for deselectable radio buttons
+	(function( $ ){
+		$.fn.uncheckableRadio = function() {
+			return this.each(function() {
+				$(this).mousedown(function() {
+					$(this).data('wasChecked', this.checked);
+				});
+
+				$(this).click(function() {
+					if ($(this).data('wasChecked'))
+						this.checked = false;
+				});
+			});
+
+		};
+	})( jQuery );
  </script>
 </head>
 
@@ -104,7 +120,7 @@
            <input id="weapon_name"type="text" style="width: 100%;" onkeyup="showWeaponHint(this.value)" />
 	 </label>
 	 <div style="text-align: left;">
-	 <select style="text-align: center; width: 25%;">
+	 <select id="weapon_up" style="text-align: center; width: 25%;">
 	   <option value="0">+0</option>
 	   <option value="1">+1</option>
 	   <option value="2">+2</option>
@@ -123,27 +139,57 @@
     <div id="bonus">
       <table id="bonus_table">
         <tr>
-	  <th><span class="parname">Forte contro Mostri</span></th>
+	  <th><span class="parname">Forte vs Mostri</span></th>
 	  <td><input id="vsmob" type="text" onchange="fixPerc(this)" /></td>
+	  <th><span class="parname">Forte vs <i>tipo Mob</i></span></th>
+	  <td><input id="vsmobtype" type="text" onchange="fixPerc(this)" /></td>
 	</tr>
 	<tr>
-	  <th><span class="parname">Forte contro Mezzi</span></th>
+	  <th><span class="parname">Forte vs Mezzi</span></th>
 	  <td><input id="vshuman" type="text" onchange="fixPerc(this)" /></td>
+	  <th><span class="parname">Forte vs <i>classe PG</i></span></th>
+	  <td><input id="vspgclass" type="text" onchange="fixPerc(this)" /></td>
 	</tr>
 	<tr>
 	  <th><span class="parname">Danni Medi</span></th>
 	  <td><input id="averagedmg" type="text" onchange="fixPerc(this)" /></td>
-	</tr>
-	<tr>
 	  <th><span class="parname">Bonus Attacco</span></th>
 	  <td><input id="bonusatk" type="text" /></td>
 	</tr>
+	<tr>
+	  <th><span class="parname">Difesa nemica</span></th>
+	  <td><input id="enemydef" type="text" /></td>
+	  <th><span class="parname">Dif. specifica nem.</span></th>
+	  <td><input id="enemyspdef" type="text" /></td>
+        </tr> 
       </table>
+      <div id="enemyskill">
+        <form id="enemy_skill" action='' onchange="updateEnemySkillInput()" onclick="updateEnemySkillInput()">
+          <p style="font-weight: bold; margin: 1px 0px 2px 2px;">Skill nemica:</p>
+          <label>
+          <input type="radio" class="deselectable" name="enemy_skill" value="blessing" /><span class="label">Benedizione</span>
+          </label>
+          <input type="text" name="blessing_lv" onchange="checkSkillLevel(this)" /><br>
+          <label>
+          <input type="radio" class="deselectable" name="enemy_skill" value="fear" /><span class="label">Paura</span>
+          </label>
+          <input type="text" name="fear_lv" onchange="checkSkillLevel(this)" /><br>
+          <label>
+          <input type="radio" class="deselectable" name="enemy_skill" value="frenzy" /><span class="label">Estasi</span>
+          </label>
+          <input type="text" name="frenzy_lv" onchange="checkSkillLevel(this)" /><br>
+        </form>
+      </div>
 
     </div>
 
 
-  <!-- Give initial value to Specializ. -->
-  <script>setJobPG(document.getElementById('classpg_select').value);</script>
+
+  <script>
+  	//Give initial value to Specializ. 
+	setJobPG(document.getElementById('classpg_select').value);
+	//Setup deselectable radiobuttons
+	$('input[type=radio].deselectable').uncheckableRadio();
+  </script>
 </body>
 </html>

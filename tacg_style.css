@@ -10,13 +10,16 @@
 	width: 100px;
 	text-align: center;
 } 
+#container {
+	overflow: hidden;
+}
 #header {
 	text-align: center;
 	background-color: #CCCCFF;
 }
 #pg_parameters {
 	float: left;
-	width: 45%;
+	width: auto;
 	padding: 2px;
 	/*border: 1px dashed; */
 }
@@ -34,8 +37,8 @@
 	padding: 1px;
 }
 #quests {
-	float: left;
-	width: 45%;
+	width: auto;
+	overflow: hidden;
 	margin: 0px 0px 0px 5px;
 	padding: 3px;
 	/*border: 1px dashed;*/
@@ -49,8 +52,8 @@
 	background-color: #AAFFAA;
 }
 #weapon {
-	float: left;
-	width: 45%;
+	width: 350px;
+	overflow: hidden;
 	/*border: 1px dashed;*/
 	margin: 10px 0px 10px 5px;
 	padding: 20px 10px;
@@ -60,12 +63,34 @@
 	float: left;
 	width: 100%;
 	margin: 5px 0px;
+	/*border: 1px dashed blue;*/
+}
+#bonus_table {
+	display: inline-block;
 	text-align: center;
+	border-spacing: 5px 1px;
+	/*border: 1px dashed;*/
+	width: auto;
 }
 #bonus_table .parname {
 	width: 200px;
 }
 #bonus_table input {
 	display: inline-block;
+	width: 50px;
+}
+#enemyskill {
+	position: absolute;
+	display: inline-block;
+	text-align: left;
+	/*border: 1px dashed;*/
+	width: auto;
+
+}
+#enemyskill span.label {
+	display: inline-block;
+	width: 100px;
+}
+#enemyskill input[type="text"] {
 	width: 50px;
 }
