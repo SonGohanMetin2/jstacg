@@ -119,7 +119,7 @@
     <div id="weapon" class="ui-widget">
       <form action=''>
          <label for="weapon_name"><span class="parname" style="width: 100%; font-weight: normal; margin: 0 0 2px 0;">Arma:</span>
-           <input id="weapon_name"type="text" style="width: 100%;" onkeyup="showWeaponHint(this.value)" />
+           <input id="weapon_name" type="text" style="width: 100%;" onkeyup="showWeaponHint(this.value)" />
          </label>
          <div style="text-align: left;">
          <select id="weapon_up" style="text-align: center; width: 25%;">
@@ -215,10 +215,8 @@
       </div>
     </div>
 
-
-
   <script>
-          //Give initial value to Specializ. 
+        //Give initial value to Specializ. 
         setJobPG(document.getElementById('classpg_select').value);
         //Setup deselectable radiobuttons
         $('input[type=radio].deselectable').uncheckableRadio();
