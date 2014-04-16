@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="tacg_style.css" />
   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
   <link rel="stylesheet" href="tacg_autocomplete.css" />
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <script src="lib/jquery-1.11.0.min.js"></script>
+  <script src="lib/jquery-ui-1.10.4.min.js"></script>
   <script src='tacg_scripts.js'></script>
   <script>
         function showWeaponHint(str) {
@@ -214,12 +214,14 @@
         </form>
       </div>
     </div>
-
+  </div>
   <script>
         //Give initial value to Specializ. 
         setJobPG(document.getElementById('classpg_select').value);
         //Setup deselectable radiobuttons
-        $('input[type=radio].deselectable').uncheckableRadio();
+        (function ($) {
+		$('input[type=radio].deselectable').uncheckableRadio();
+	})(jQuery);
   </script>
 </body>
 </html>
