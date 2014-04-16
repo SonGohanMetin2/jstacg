@@ -11,30 +11,30 @@
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <script src='tacg_scripts.js'></script>
   <script>
-	function showWeaponHint(str) {
-		$(function () {
-			$('#weapon_name').autocomplete({
-				source: 'tacg_autocomplete.php',
-				minLength: 2,
-			})
-		});
-	}
-	// trick for deselectable radio buttons
-	(function( $ ){
-		$.fn.uncheckableRadio = function() {
-			return this.each(function() {
-				$(this).mousedown(function() {
-					$(this).data('wasChecked', this.checked);
-				});
+        function showWeaponHint(str) {
+                $(function () {
+                        $('#weapon_name').autocomplete({
+                                source: 'tacg_autocomplete.php',
+                                minLength: 2,
+                        })
+                });
+        }
+        // trick for deselectable radio buttons
+        (function( $ ){
+                $.fn.uncheckableRadio = function() {
+                        return this.each(function() {
+                                $(this).mousedown(function() {
+                                        $(this).data('wasChecked', this.checked);
+                                });
 
-				$(this).click(function() {
-					if ($(this).data('wasChecked'))
-						this.checked = false;
-				});
-			});
+                                $(this).click(function() {
+                                        if ($(this).data('wasChecked'))
+                                                this.checked = false;
+                                });
+                        });
 
-		};
-	})( jQuery );
+                };
+        })( jQuery );
  </script>
 </head>
 
@@ -65,40 +65,41 @@
       
         <p><span class="parname">Specializ</span>
           <select id="jobpg_select" onchange="updateAuraAndFrenzy(document.getElementById('classpg_select').value,this.value)">
-	    <option id="jobpg_1" value="none"></option>
-	    <option id="jobpg_2" value="none"></option>
+            <option id="jobpg_1" value="none"></option>
+            <option id="jobpg_2" value="none"></option>
           </select>
         </p>
       </div>
       
       <table id="status_table">
         <tr>
-	  <th class="parname">Livello</th>
-	  <td><input id="levelpg" type="text" onchange="checkLevel(this)" /></td>
-	</tr>
-	  <th class="parname">INT</th>
-	  <td><input type="text" id='int' onchange="checkStatus(this)" /></td>
-	</tr>
+          <th class="parname">Livello</th>
+          <td><input id="levelpg" type="text" onchange="checkLevel(this)" /></td>
+        </tr>
         <tr>
-	  <th class="parname">STR</th>
-	  <td><input type="text" id='str' onchange="checkStatus(this)" /></td>
-	</tr>
+          <th class="parname">INT</th>
+          <td><input type="text" id='int' onchange="checkStatus(this)" /></td>
+        </tr>
         <tr>
-	  <th class="parname">DEX</th>
-	  <td><input type="text" id='dex' onchange="checkStatus(this)" /></td>
-	</tr>
-	<tr>
-	  <th class="parname">Bonus VA</th>
-	  <td><input type="text" id='bonusva' /></td>
-	</tr>
-	<tr>
-	  <th class="parname" id="aura_th"></th>
-	  <td id="aura_td"><input type="text" id="auralv" onchange="checkSkillLevel(this)" /></td>
-	</tr>
-	<tr>
-	  <th class="parname" id="frenzy_th"></th>
-	  <td id="frenzy_td"><input type="text" id="frenzylv" onchange="checkSkillLevel(this)" /></td>
-	</tr>
+          <th class="parname">STR</th>
+          <td><input type="text" id='str' onchange="checkStatus(this)" /></td>
+        </tr>
+        <tr>
+          <th class="parname">DEX</th>
+          <td><input type="text" id='dex' onchange="checkStatus(this)" /></td>
+        </tr>
+        <tr>
+          <th class="parname">Bonus VA</th>
+          <td><input type="text" id='bonusva' /></td>
+        </tr>
+        <tr>
+          <th class="parname" id="aura_th"></th>
+          <td id="aura_td"><input type="text" id="auralv" onchange="checkSkillLevel(this)" /></td>
+        </tr>
+        <tr>
+          <th class="parname" id="frenzy_th"></th>
+          <td id="frenzy_td"><input type="text" id="frenzylv" onchange="checkSkillLevel(this)" /></td>
+        </tr>
       </table>
     </div>
 
@@ -119,21 +120,21 @@
       <form action=''>
          <label for="weapon_name"><span class="parname" style="width: 100%; font-weight: normal; margin: 0 0 2px 0;">Arma:</span>
            <input id="weapon_name"type="text" style="width: 100%;" onkeyup="showWeaponHint(this.value)" />
-	 </label>
-	 <div style="text-align: left;">
-	 <select id="weapon_up" style="text-align: center; width: 25%;">
-	   <option value="0">+0</option>
-	   <option value="1">+1</option>
-	   <option value="2">+2</option>
-	   <option value="3">+3</option>
-	   <option value="4">+4</option>
-	   <option value="5">+5</option>
-	   <option value="6">+6</option>
-	   <option value="7">+7</option>
-	   <option value="8">+8</option>
-	   <option value="9">+9</option>
-	 </select>
-	 </div>
+         </label>
+         <div style="text-align: left;">
+         <select id="weapon_up" style="text-align: center; width: 25%;">
+           <option value="0">+0</option>
+           <option value="1">+1</option>
+           <option value="2">+2</option>
+           <option value="3">+3</option>
+           <option value="4">+4</option>
+           <option value="5">+5</option>
+           <option value="6">+6</option>
+           <option value="7">+7</option>
+           <option value="8">+8</option>
+           <option value="9">+9</option>
+         </select>
+         </div>
       </form>
     </div>
 
@@ -141,8 +142,8 @@
     <div id="results">
       <table id="results_table">
         <tr>
-	  <th class="resname" style="width: 100%; font-size: 100%; height: auto; margin: 1px;" colspan=8>Risultati:</th>
-	</tr>
+          <th class="resname" style="width: 100%; font-size: 100%; height: auto; margin: 1px;" colspan=8>Risultati:</th>
+        </tr>
         <tr>
           <th class="resname">Attacco base</th><td id="res_base_atk"></td>
           <th class="resname">Attacco arma</th><td id="res_weapon_atk"></td>
@@ -168,28 +169,28 @@
     <div id="bonus">
       <table id="bonus_table">
         <tr>
-	  <th><span class="parname">Forte vs Mostri</span></th>
-	  <td><input id="vsmob" type="text" onchange="fixPerc(this)" /></td>
-	  <th><span class="parname">Forte vs <i>tipo Mob</i></span></th>
-	  <td><input id="vsmobtype" type="text" onchange="fixPerc(this)" /></td>
-	</tr>
-	<tr>
-	  <th><span class="parname">Forte vs Mezzi</span></th>
-	  <td><input id="vshuman" type="text" onchange="fixPerc(this)" /></td>
-	  <th><span class="parname">Forte vs <i>classe PG</i></span></th>
-	  <td><input id="vspgclass" type="text" onchange="fixPerc(this)" /></td>
-	</tr>
-	<tr>
-	  <th><span class="parname">Danni Medi</span></th>
-	  <td><input id="averagedmg" type="text" onchange="fixPerc(this)" /></td>
-	  <th><span class="parname">Bonus Attacco</span></th>
-	  <td><input id="bonusatk" type="text" /></td>
-	</tr>
-	<tr>
-	  <th><span class="parname">Difesa nemica</span></th>
-	  <td><input id="enemydef" type="text" /></td>
-	  <th><span class="parname">Dif. specifica nem.</span></th>
-	  <td><input id="enemyspdef" type="text" /></td>
+          <th><span class="parname">Forte vs Mostri</span></th>
+          <td><input id="vsmob" type="text" onchange="fixPerc(this)" /></td>
+          <th><span class="parname">Forte vs <i>tipo Mob</i></span></th>
+          <td><input id="vsmobtype" type="text" onchange="fixPerc(this)" /></td>
+        </tr>
+        <tr>
+          <th><span class="parname">Forte vs Mezzi</span></th>
+          <td><input id="vshuman" type="text" onchange="fixPerc(this)" /></td>
+          <th><span class="parname">Forte vs <i>classe PG</i></span></th>
+          <td><input id="vspgclass" type="text" onchange="fixPerc(this)" /></td>
+        </tr>
+        <tr>
+          <th><span class="parname">Danni Medi</span></th>
+          <td><input id="averagedmg" type="text" onchange="fixPerc(this)" /></td>
+          <th><span class="parname">Bonus Attacco</span></th>
+          <td><input id="bonusatk" type="text" /></td>
+        </tr>
+        <tr>
+          <th><span class="parname">Difesa nemica</span></th>
+          <td><input id="enemydef" type="text" /></td>
+          <th><span class="parname">Dif. specifica nem.</span></th>
+          <td><input id="enemyspdef" type="text" /></td>
         </tr> 
       </table>
       <div id="enemyskill">
@@ -217,10 +218,10 @@
 
 
   <script>
-  	//Give initial value to Specializ. 
-	setJobPG(document.getElementById('classpg_select').value);
-	//Setup deselectable radiobuttons
-	$('input[type=radio].deselectable').uncheckableRadio();
+          //Give initial value to Specializ. 
+        setJobPG(document.getElementById('classpg_select').value);
+        //Setup deselectable radiobuttons
+        $('input[type=radio].deselectable').uncheckableRadio();
   </script>
 </body>
 </html>
