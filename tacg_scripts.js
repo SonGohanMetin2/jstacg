@@ -182,6 +182,58 @@ function updateEnemySkillInput() {
 		break;
 	}
 }
+
+function updateQuests(quest) {
+	var form = $('#quests_form');
+
+	switch(quest.value) {
+
+	case 'quest_cursebook':
+		if(!quest.checked) {
+			$("input[name=quest][value=quest_icemarble]").removeAttr('checked');
+			$("input[name=quest][value=quest_tugyi]").removeAttr('checked');
+			$("input[name=quest][value=quest_leader]").removeAttr('checked');
+			$("input[name=quest][value=quest_resentment]").removeAttr('checked');
+		}
+		break;
+	case 'quest_icemarble':
+		if(!quest.checked) {
+			$("input[name=quest][value=quest_tugyi]").removeAttr('checked');
+			$("input[name=quest][value=quest_leader]").removeAttr('checked');
+			$("input[name=quest][value=quest_resentment]").removeAttr('checked');
+		} else {
+			$("input[name=quest][value=quest_cursebook]").prop('checked','checked');
+		}
+		break;
+	case 'quest_tugyi':
+		if(!quest.checked) {
+			$("input[name=quest][value=quest_leader]").removeAttr('checked');
+			$("input[name=quest][value=quest_resentment]").removeAttr('checked');
+		} else {
+			$("input[name=quest][value=quest_cursebook]").prop('checked','checked');
+			$("input[name=quest][value=quest_icemarble]").prop('checked','checked');
+		}
+
+		break;
+	case 'quest_leader':
+		if(!quest.checked) {
+			$("input[name=quest][value=quest_resentment]").removeAttr('checked');
+		} else {
+			$("input[name=quest][value=quest_cursebook]").prop('checked','checked');
+			$("input[name=quest][value=quest_icemarble]").prop('checked','checked');
+			$("input[name=quest][value=quest_tugyi]").prop('checked','checked');
+		}
+		break;
+	case 'quest_resentment':
+		if(quest.checked) {
+			$("input[name=quest][value=quest_cursebook]").prop('checked','checked');
+			$("input[name=quest][value=quest_icemarble]").prop('checked','checked');
+			$("input[name=quest][value=quest_tugyi]").prop('checked','checked');
+			$("input[name=quest][value=quest_leader]").prop('checked','checked');
+		}
+		break;
+	}
+}
 /////////////////////////////////// AJAX FUNCTIONS //////////////////////////////////
 /* @param opts.str The string containing parameter of the GET request
  * @param opts.url The url of the server-side script (optional, default=globals.serverScriptURL)

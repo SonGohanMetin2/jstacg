@@ -106,18 +106,18 @@
     <!-- +++++++++++++++++++++ QUESTS +++++++++++++++++++++++++ -->
     <div id="quests">
       <form action=''>
-        <input type="checkbox" name="quest" value="quest_cursebook"><label>Libri Maledizione</label><br>
-        <input type="checkbox" name="quest" value="quest_icemarble"><label>Palle di Ghiaccio</label><br>
-        <input type="checkbox" name="quest" value="quest_tugyi"><label>Tavole Tugyi</label><br>
-        <input type="checkbox" name="quest" value="quest_leader"><label>Notizie dei Capi</label><br>
-        <input type="checkbox" name="quest" value="quest_resentment"><label>Gioielli Invidia</label><br>
+        <input type="checkbox" name="quest" value="quest_cursebook" onchange="updateQuests(this)"><label>Libri Maledizione</label><br>
+        <input type="checkbox" name="quest" value="quest_icemarble" onchange="updateQuests(this)"><label>Palle di Ghiaccio</label><br>
+        <input type="checkbox" name="quest" value="quest_tugyi" onchange="updateQuests(this)"><label>Tavole Tugyi</label><br>
+        <input type="checkbox" name="quest" value="quest_leader" onchange="updateQuests(this)"><label>Notizie dei Capi</label><br>
+        <input type="checkbox" name="quest" value="quest_resentment" onchange="updateQuests(this)"><label>Gioielli Invidia</label><br>
         <input type="checkbox" name="quest" value="quest_wisdom"><label>Gioielli Saggezza</label><br>
       </form>
     </div>
 
     <!-- +++++++++++++++++++++ WEAPON +++++++++++++++++++++++++ -->
     <div id="weapon" class="ui-widget">
-      <form action=''>
+      <form action='' id="quests_form">
          <label for="weapon_name"><span class="parname" style="width: 100%; font-weight: normal; margin: 0 0 2px 0;">Arma:</span>
            <input id="weapon_name" type="text" style="width: 100%;" onkeyup="showWeaponHint(this.value)" />
          </label>
