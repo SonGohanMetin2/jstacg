@@ -1,6 +1,8 @@
 <?php
 	/* Server-side JQuery script. Accepts a 'term' parameter and returns names
 	 * starting with that string.
+	 * @author Son Gohan
+	 * @license GNU GPL v3
 	 */
 	$names = file('weapons.db') or die('Cannot open weapons.db');
 	

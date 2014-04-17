@@ -1,5 +1,6 @@
 /* Client-side scripts for AJAX-TACG framework.
- * @author Son Gohan
+ * @author Son Gohan 
+ * @license GNU GPL v3
  */
 
 var globals = {
