@@ -11,6 +11,7 @@
   <script src="lib/jquery-1.11.0.min.js"></script>
   <script src="lib/jquery-ui-1.10.4.min.js"></script>
   <script src='tacg_scripts.js'></script>
+  <script src='tacg_atk_scripts.js'></script>
   <script>
         function showWeaponHint(str) {
                 $(function () {
@@ -40,7 +41,7 @@
 </head>
 
 <body>
-  <div id="container" onchange="calculateAtk()">
+  <div id="container" onchange="tacgCalculator.calculateAtk()">
     <!-- +++++++++++++++++++++ HEADER +++++++++++++++++++++++++ -->
     <div id="header">
       <p style="font-weight: bold; font-size: 120%; margin: 1px 0 0 0; padding: 0;">~~~~ Metin2 ~~~~</p>
@@ -53,7 +54,7 @@
       <div id="pg_main_prop">
         <form action=''>
           <p><span class="parname">Classe PG</span>
-             <select id="classpg_select" onchange="setJobPG(this.value);">
+             <select id="classpg_select" onchange="tacgUtils.setJobPG(this.value);">
                <option value="warrior">Guerriero/a</option>
                <option value="sura">Sura</option>
                <option value="ninja">Ninja</option>
@@ -65,7 +66,7 @@
         </form>
       
         <p><span class="parname">Specializ</span>
-          <select id="jobpg_select" onchange="updateAuraAndFrenzy(document.getElementById('classpg_select').value,this.value)">
+          <select id="jobpg_select" onchange="tacgUtils.updateAuraAndFrenzy(document.getElementById('classpg_select').value,this.value)">
             <option id="jobpg_1" value="none"></option>
             <option id="jobpg_2" value="none"></option>
           </select>
@@ -75,19 +76,19 @@
       <table id="status_table">
         <tr>
           <th class="parname">Livello</th>
-          <td><input id="levelpg" type="text" onchange="checkLevel(this)" /></td>
+          <td><input id="levelpg" type="text" onchange="tacgUtils.checkLevel(this)" /></td>
         </tr>
         <tr>
           <th class="parname">INT</th>
-          <td><input type="text" id='int' onchange="checkStatus(this)" /></td>
+          <td><input type="text" id='int' onchange="tacgUtils.checkStatus(this)" /></td>
         </tr>
         <tr>
           <th class="parname">STR</th>
-          <td><input type="text" id='str' onchange="checkStatus(this)" /></td>
+          <td><input type="text" id='str' onchange="tacgUtils.checkStatus(this)" /></td>
         </tr>
         <tr>
           <th class="parname">DEX</th>
-          <td><input type="text" id='dex' onchange="checkStatus(this)" /></td>
+          <td><input type="text" id='dex' onchange="tacgUtils.checkStatus(this)" /></td>
         </tr>
         <tr>
           <th class="parname">Bonus VA</th>
@@ -95,11 +96,11 @@
         </tr>
         <tr>
           <th class="parname" id="aura_th"></th>
-          <td id="aura_td"><input type="text" id="auralv" onchange="checkSkillLevel(this)" /></td>
+          <td id="aura_td"><input type="text" id="auralv" onchange="tacgUtils.checkSkillLevel(this)" /></td>
         </tr>
         <tr>
           <th class="parname" id="frenzy_th"></th>
-          <td id="frenzy_td"><input type="text" id="frenzylv" onchange="checkSkillLevel(this)" /></td>
+          <td id="frenzy_td"><input type="text" id="frenzylv" onchange="tacgUtils.checkSkillLevel(this)" /></td>
         </tr>
       </table>
     </div>
@@ -107,11 +108,11 @@
     <!-- +++++++++++++++++++++ QUESTS +++++++++++++++++++++++++ -->
     <div id="quests">
       <form action=''>
-        <input type="checkbox" name="quest" value="quest_cursebook" onchange="updateQuests(this)"><label>Libri Maledizione</label><br>
-        <input type="checkbox" name="quest" value="quest_icemarble" onchange="updateQuests(this)"><label>Palle di Ghiaccio</label><br>
-        <input type="checkbox" name="quest" value="quest_tugyi" onchange="updateQuests(this)"><label>Tavole Tugyi</label><br>
-        <input type="checkbox" name="quest" value="quest_leader" onchange="updateQuests(this)"><label>Notizie dei Capi</label><br>
-        <input type="checkbox" name="quest" value="quest_resentment" onchange="updateQuests(this)"><label>Gioielli Invidia</label><br>
+        <input type="checkbox" name="quest" value="quest_cursebook" onchange="tacgUtils.updateQuests(this)"><label>Libri Maledizione</label><br>
+        <input type="checkbox" name="quest" value="quest_icemarble" onchange="tacgUtils.updateQuests(this)"><label>Palle di Ghiaccio</label><br>
+        <input type="checkbox" name="quest" value="quest_tugyi" onchange="tacgUtils.updateQuests(this)"><label>Tavole Tugyi</label><br>
+        <input type="checkbox" name="quest" value="quest_leader" onchange="tacgUtils.updateQuests(this)"><label>Notizie dei Capi</label><br>
+        <input type="checkbox" name="quest" value="quest_resentment" onchange="tacgUtils.updateQuests(this)"><label>Gioielli Invidia</label><br>
         <input type="checkbox" name="quest" value="quest_wisdom"><label>Gioielli Saggezza</label><br>
       </form>
     </div>
@@ -171,19 +172,19 @@
       <table id="bonus_table">
         <tr>
           <th><span class="parname">Forte vs Mostri</span></th>
-          <td><input id="vsmob" type="text" onchange="fixPerc(this)" /></td>
+          <td><input id="vsmob" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
           <th><span class="parname">Forte vs <i>tipo Mob</i></span></th>
-          <td><input id="vsmobtype" type="text" onchange="fixPerc(this)" /></td>
+          <td><input id="vsmobtype" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
         </tr>
         <tr>
           <th><span class="parname">Forte vs Mezzi</span></th>
-          <td><input id="vshuman" type="text" onchange="fixPerc(this)" /></td>
+          <td><input id="vshuman" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
           <th><span class="parname">Forte vs <i>classe PG</i></span></th>
-          <td><input id="vspgclass" type="text" onchange="fixPerc(this)" /></td>
+          <td><input id="vspgclass" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
         </tr>
         <tr>
           <th><span class="parname">Danni Medi</span></th>
-          <td><input id="averagedmg" type="text" onchange="fixPerc(this)" /></td>
+          <td><input id="averagedmg" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
           <th><span class="parname">Bonus Attacco</span></th>
           <td><input id="bonusatk" type="text" /></td>
         </tr>
@@ -195,20 +196,20 @@
         </tr> 
       </table>
       <div id="enemyskill">
-        <form id="enemy_skill" action='' onchange="updateEnemySkillInput()" onclick="updateEnemySkillInput()">
+        <form id="enemy_skill" action='' onchange="tacgUtils.updateEnemySkillInput()" onclick="tacgUtils.updateEnemySkillInput()">
           <p style="font-weight: bold; margin: 1px 0px 2px 2px;">Skill nemica:</p>
           <label>
           <input type="radio" class="deselectable" name="enemy_skill" value="blessing" /><span class="label">Benediz.</span>
           </label>
-          <input type="text" name="blessing_lv" onchange="checkSkillLevel(this)" /><br>
+          <input type="text" name="blessing_lv" onchange="tacgUtils.checkSkillLevel(this)" /><br>
           <label>
           <input type="radio" class="deselectable" name="enemy_skill" value="fear" /><span class="label">Paura</span>
           </label>
-          <input type="text" name="fear_lv" onchange="checkSkillLevel(this)" /><br>
+          <input type="text" name="fear_lv" onchange="tacgUtils.checkSkillLevel(this)" /><br>
           <label>
           <input type="radio" class="deselectable" name="enemy_skill" value="frenzy" /><span class="label">Estasi</span>
           </label>
-          <input type="text" name="frenzy_lv" onchange="checkSkillLevel(this)" /><br>
+          <input type="text" name="frenzy_lv" onchange="tacgUtils.checkSkillLevel(this)" /><br>
           <label>
           <input type="radio" class="deselectable" name="enemy_skill" value="darkprotection" /><span class="label" style="width: 125px;">Protez. Oscura</span><br>
           </label>
@@ -218,7 +219,7 @@
   </div>
   <script>
         //Give initial value to Specializ. 
-        setJobPG(document.getElementById('classpg_select').value);
+        tacgUtils.setJobPG(document.getElementById('classpg_select').value);
         //Setup deselectable radiobuttons
         (function ($) {
 		$('input[type=radio].deselectable').uncheckableRadio();
