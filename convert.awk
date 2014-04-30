@@ -7,6 +7,7 @@ $0 !~ /^#.*/ {
 	split(name,a,"(");
 	name = a[1];
 	gsub("_"," ",name);
+	gsub("'","\'",name);
 	name = substr(name,0,length(name)-1);
 	if(length(name) == 0)
 		next;

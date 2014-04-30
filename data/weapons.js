@@ -163,7 +163,7 @@ tacgGlobals.weapons = {
 		atkmax: [73, 79, 84, 90, 95, 103, 111, 121, 131, 127],
 		type: 'sword'
 	},
-	'Spada dell'Orchidea': {
+	'Spada dell\'Orchidea': {
 		level: 32,
 		atkmin: [38, 44, 50, 56, 62, 70, 79, 89, 100, 112],
 		atkmax: [52, 58, 64, 70, 76, 84, 93, 103, 114, 112],
@@ -643,7 +643,7 @@ tacgGlobals.weapons = {
 		atkmax: [15, 22, 29, 36, 43, 50, 57, 64, 71, 76],
 		type: 'bell'
 	},
-	'Campana d'Argento': {
+	'Campana d\'Argento': {
 		level: 15,
 		atkmin: [20, 27, 34, 41, 48, 55, 62, 69, 76, 83],
 		atkmax: [26, 33, 40, 47, 54, 61, 68, 75, 82, 83],
