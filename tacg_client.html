@@ -1,26 +1,21 @@
 <!DOCTYPE html>
-<!-- Theoretical Attack Calculus Gear client by Son Gohan -->
+<!-- Theoretical Attack Calculus Gear JavaScript client by Son Gohan (son.gohan.mt2@gmail.com) -->
 <!-- License: GNU GPL v3 -->
 <html>
 <head>
   <meta charset="utf-8" />
   <title>TACG</title>
   <link rel="stylesheet" href="tacg_style.css" />
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+  <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />-->
+  <link rel="stylesheet" href="lib/ui-lightness/jquery-ui-1.10.4.min.css" />
   <link rel="stylesheet" href="tacg_autocomplete.css" />
   <script src="lib/jquery-1.11.0.min.js"></script>
   <script src="lib/jquery-ui-1.10.4.min.js"></script>
+  <script src='data/weapons.js'></script>
+  <script src='data/skills.js'></script>
   <script src='tacg_scripts.js'></script>
   <script src='tacg_atk_scripts.js'></script>
   <script>
-        function showWeaponHint(str) {
-                $(function () {
-                        $('#weapon_name').autocomplete({
-                                source: 'tacg_autocomplete.php',
-                                minLength: 2,
-                        })
-                });
-        }
         // trick for deselectable radio buttons
         (function( $ ){
                 $.fn.uncheckableRadio = function() {
@@ -62,15 +57,17 @@
             </select>
             <input type='radio' name='sex' value='male' checked='checked' />M
             <input type='radio' name='sex' value='female' />F
+	    <!-- This button automagically works without any function attached to it, being in a form. -->
+	    <button class='resetbutton'>RESET</button>
           </p>
         </form>
-      
         <p><span class="parname">Specializ</span>
           <select id="jobpg_select" onchange="tacgUtils.updateAuraAndFrenzy(document.getElementById('classpg_select').value,this.value)">
             <option id="jobpg_1" value="none"></option>
             <option id="jobpg_2" value="none"></option>
           </select>
         </p>
+
       </div>
       
       <table id="status_table">
@@ -121,7 +118,7 @@
     <div id="weapon" class="ui-widget">
       <form action='' id="quests_form">
          <label for="weapon_name"><span class="parname" style="width: 100%; font-weight: normal; margin: 0 0 2px 0;">Arma:</span>
-           <input id="weapon_name" type="text" style="width: 100%;" onkeyup="showWeaponHint(this.value)" />
+           <input id="weapon_name" type="text" style="width: 100%;" onkeyup="tacgUtils.showWeaponHint(this.value)" />
          </label>
          <div style="text-align: left;">
          <select id="weapon_up" style="text-align: center; width: 25%;">
@@ -153,14 +150,14 @@
           <th class="resname">Danno finale effettivo</th><td id="res_final_eff_atk"></td>
         </tr>
         <tr>
-          <th class="resname">Danno finale teorico (con bonus)</th><td id="res_final_theo_atk_bonus"></td>
-          <th class="resname">Danno finale effettivo (con bonus)</th><td id="res_final_eff_atk_bonus"></td>
-          <th class="resname">Danni/secondo a piedi (vs Mob)</th><td id="res_dps_feet_mob"></td>
-          <th class="resname">Danni/secondo a cavallo (vs Mob)</th><td id="res_dps_horse_mob"></td>
+          <th class="resname">Danno effettivo con bonus<br/>(vs PG)</th><td id="res_eff_atk_bonus_pg"></td>
+          <th class="resname">Danno effettivo con bonus<br/>(vs Mob)</th><td id="res_eff_atk_bonus_mob"></td>
+          <th class="resname">Danni/secondo a piedi<br/>(vs Mob)</th><td id="res_dps_feet_mob"></td>
+          <th class="resname">Danni/secondo a cavallo<br/>(vs Mob)</th><td id="res_dps_horse_mob"></td>
         </tr>
         <tr>
-          <th class="resname">Danni/secondo a piedi (vs PG)</th><td id="res_dps_feet_pg"></td>
-          <th class="resname">Danni/secondo a cavallo (vs PG)</th><td id="res_dps_horse_pg"></td>
+          <th class="resname">Danni/secondo a piedi<br/>(vs PG)</th><td id="res_dps_feet_pg"></td>
+          <th class="resname">Danni/secondo a cavallo<br/>(vs PG)</th><td id="res_dps_horse_pg"></td>
           <th class="resname">Danno trafiggente (vs Mob)</th><td id="res_pierce_mob"></td>
          <th class="resname">Danno trafiggente (vs PG)</th> <td id="res_pierce_pg"></td>
         </tr>
@@ -192,8 +189,12 @@
           <th><span class="parname">Difesa nemica</span></th>
           <td><input id="enemydef" type="text" /></td>
           <th><span class="parname">Dif. specifica nem.</span></th>
-          <td><input id="enemyspdef" type="text" /></td>
+          <td><input id="enemyspdef" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
         </tr> 
+	<tr>
+	  <th><span class="parname">Int nemica</span></th>
+	  <td><input id="enemyint" type="text" onchange="tacgUtils.checkStatus(this)" /></td>
+	</tr>
       </table>
       <div id="enemyskill">
         <form id="enemy_skill" action='' onchange="tacgUtils.updateEnemySkillInput()" onclick="tacgUtils.updateEnemySkillInput()">

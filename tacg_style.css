@@ -1,5 +1,5 @@
-/* Stylesheet for the AJAX-TACG client
- * by Son Gohan
+/* Stylesheet for the JS-TACG client
+ * Author: Son Gohan (son.gohan.mt2@gmail.com)
  * License: GNU GPL v3
  */
 .parname {
@@ -21,6 +21,17 @@
 	width: 100px;
 	text-align: center;
 } 
+.resetbutton {
+	margin:  0px 15px;
+	width: 90px;
+	height: 45px;
+	float: right;
+	font-weight: bold;
+	color: #000066;
+	border-radius: 8px;
+	background-color: #DDDDFF;
+	border-color: blue;
+}
 #container {
 	overflow: hidden;
 }
@@ -45,6 +56,7 @@
 	height: 25px;
 }
 #pg_main_prop {
+	display: table;
 	width: auto;
 	padding: 3px;
 	background-color: #AAFFAA;

@@ -1,10 +1,195 @@
-/* Atk calculating scripts for the TACG.
- *
+/* Atk calculating scripts for the JS-TACG.
+ * @author Son Gohan (son.gohan.mt2@gmail.com)
+ * @license GNU GPL v3
  */
 
 if(!tacgCalculator)
 	var tacgCalculator = {
 		calculateAtk: function () {
-			//placeholder
+			var weapon = $('#weapon_name').val();
+			var up = +$('#weapon_up').val();
+			var atkmin = (tacgGlobals.weapons[weapon] && tacgGlobals.weapons[weapon].atkmin[up]) || 0;
+			var atkmax = (tacgGlobals.weapons[weapon] && tacgGlobals.weapons[weapon].atkmax[up]) || 0;
+			var baseTheoAtk = this.calcTheoAtk(null, null);
+			var finalTheoAtk = atkmin ? this.calcTheoAtk(tacgGlobals.weapons[weapon], up) : baseTheoAtk;
+			var finalEffAtk = this.calcEffAtk(tacgGlobals.weapons[weapon], up); 
+			var finalEffAtkBonus = this.calcEffAtkBonus(tacgGlobals.weapons[weapon], up);
+
+			$('#res_base_atk').html(baseTheoAtk[0]);	
+			$('#res_weapon_atk').html(atkmin + ' - ' + atkmax);
+			$('#res_final_theo_atk').html(finalTheoAtk[0] + " - " + finalTheoAtk[1]);
+			$('#res_final_eff_atk').html(finalEffAtk[0] + " - " + finalEffAtk[1]);
+			$('#res_eff_atk_bonus_pg').html(finalEffAtkBonus['pg'][0] + " - " + finalEffAtkBonus['pg'][1]);
+			$('#res_eff_atk_bonus_mob').html(finalEffAtkBonus['mob'][1] + " - " + finalEffAtkBonus['mob'][1]);
+		},
+		/**
+		 * Calculate base theoretical attack with the 1st Mystikal-Gohan Law
+		 * @param weapon The equipped weapon, or null
+		 * @param up The weapon's up
+		 * @return [atkmin, atkmax]
+		 */
+		calcTheoAtk: function (weapon, up) {
+			var level = +$('#levelpg').val();
+			var dex = +$('#dex').val() || 1;
+			var str = +$('#str').val() || 1;
+			var iq = +$('#int').val() || 1;
+			var atkmin = (weapon && weapon.atkmin && weapon.atkmin[up]) || 0;
+			var atkmax = (weapon && weapon.atkmax && weapon.atkmax[up]) || 0;
+			var stat;
+
+			switch($('#classpg_select').val()) {
+
+			case 'warrior':
+			case 'sura':
+				stat = str;
+				break;
+			case 'ninja':
+				stat = dex;
+				break;
+			case 'shaman':
+				stat = iq;
+				break;
+			}
+
+			return [Math.floor(2 * level + 1/75. * (70 + Math.floor((level + 2 * dex) / 9.)) * ((str + atkmin) + (stat + atkmin) / 2.)),
+				Math.floor(2 * level + 1/75. * (70 + Math.floor((level + 2 * dex) / 9.)) * ((str + atkmax) + (stat + atkmax) / 2.))];
+				
+		},
+		/**
+		 * Calculate effective attack with the 2nd Mystikal-Gohan Law
+		 * @param weapon The equipped weapon, or null
+		 * @param up The weapon's up
+		 * @return [atkmin, atkmax]
+		 */
+		calcEffAtk: function (weapon, up) {
+			var level = +$('#levelpg').val();
+			var dex = +$('#dex').val() || 1;
+			var str = +$('#str').val() || 1;
+			var iq = +$('#int').val() || 1;
+			var baseatkmin = (weapon && weapon.atkmin && weapon.atkmin[0]) || 0;
+			var baseatkmax = (weapon && weapon.atkmax && weapon.atkmax[0]) || 0;
+			var growth = tacgGlobals.weapons.growth;
+			var stat;
+
+			switch($('#classpg_select').val()) {
+
+			case 'warrior':
+			case 'sura':
+				stat = str;
+				break;
+			case 'ninja':
+				stat = dex;
+				break;
+			case 'shaman':
+				stat = iq;
+				break;
+			}
+
+			return [Math.floor(2 * (level + growth(weapon, up)) + 1/75. * (70 + Math.floor((2 * dex - 0.6 * level) / 9.)) * (str + (3 * baseatkmin + stat) / 2.)),
+				Math.floor(2 * (level + growth(weapon, up)) + 1/75. * (70 + Math.floor((2 * dex - 0.6 * level) / 9.)) * (str + (3 * baseatkmax + stat) / 2.))];
+		},
+		calcEffAtkBonus: function (weapon, up, piercing) {
+			var effAtk = this.calcEffAtk(weapon, up);
+			var enemyDefense = +$('#enemydef').val() || 0;
+			var powerups = this.powerups();
+			var bonus = this.bonus();
+			console.log("enDef = "+enemyDefense+"\nbonus="+bonus.I['mob']+"\npow = "+powerups);
+			return {
+				pg: [
+					Math.floor(Math.max(0,(effAtk[0] + powerups) * bonus.I['pg'] - enemyDefense * bonus.II['pg'] + 
+						(piercing ? enemyDefense : 0)) * bonus.III['pg']),
+					Math.floor(Math.max(0,(effAtk[1] + powerups) * bonus.I['pg'] - enemyDefense * bonus.II['pg'] + 
+						(piercing ? enemyDefense : 0)) * bonus.III['pg'])
+				],
+				mob: [
+					Math.floor(Math.max(0,(effAtk[0] + powerups) * bonus.I['mob'] - enemyDefense * bonus.II['mob'] + 
+						(piercing ? enemyDefense : 0)) * bonus.III['mob']),
+					Math.floor(Math.max(0,(effAtk[1] + powerups) * bonus.I['mob'] - enemyDefense * bonus.II['mob'] + 
+						(piercing ? enemyDefense : 0)) * bonus.III['mob'])
+				]
+			};
+		},
+		powerups: function () {
+			var pow = 0;
+			var pgStats = {
+				level: +$('#levelpg').val(),
+				iq: +$('#enemyint').val(),	// this is the ENEMY's iq
+				str: +$('#str').val(),
+				dex: +$('#dex').val()
+			};
+			var jobpg = $('#jobpg').val();
+
+			switch($('#classpg').val()) {
+
+			case 'warrior':
+				if(jobpg === 'body')
+					pow += tacgGlobals.skills['aura'](pgStats, +$('#auralv').val());
+				break;
+			case 'sura':
+				if(jobpg === 'mirage') 
+					pow += tacgGlobals.skills['enchantedblade'](pgStats, +$('#auralv').val());
+				break;
+			case 'shaman':
+				if(jobpg === 'healing')
+					pow += tacgGlobals.skills['attackup'](pgStats, +$('#auralv').val());
+				break;
+			}
+			
+			if($('input[name=quest][value=quest_icemarble]').prop('checked'))
+				pow += 50;
+			if($('input[name=quest][value=quest_resentment]').prop('checked'))
+				pow += 51;
+			if($('input[name=quest][value=quest_wisdom]').prop('checked'))
+				pow += 60;
+			if($('#bonusatk').val())
+				pow += (+$('#bonusatk').val());
+
+			return pow;
+		},
+		/**
+		 * Calculate bonuses.
+		 * @return { I: { pg, mob }, II: ... }
+		 */
+		// FIXME
+		bonus: function () {
+			var pgStats = {
+				level: +$('#levelpg').val(),
+				iq: +$('#enemyint').val(),	// this is the ENEMY's iq
+				str: +$('#str').val(),
+				dex: +$('#dex').val()
+			};
+			var tugyiDone = !!$('input[name=quest][value=quest_tugyi]').prop('checked');
+			var leadersDone = !!$('input[name=quest][value=quest_leader]').prop('checked');
+			var blessing = ($('input[name=enemy_skill][value=blessing]').prop('checked') && 
+						tacgGlobals.skills['blessing'](pgStats, tacgUtils.toIntLv($('#blessing_lv').val()))) || 0;
+			var fear = ($('input[name=enemy_skill][value=fear]').prop('checked') &&
+						tacgGlobals.skills['fear'](pgStats, tacgUtils.toIntLv($('#fear_lv').val()))) || 0;
+			var frenzy = ($('input[name=enemy_skill][value=frenzy]').prop('checked') &&
+						tacgGlobals.skills['frenzy'](pgStats, tacgUtils.toIntLv($('#frenzy_lv').val()))) || 0;
+			var average = parseInt($('#averagedmg').val(), 10) || 0;
+			var darkProtect = !!$('#darkprotection').prop('checked');
+			var vspgclass = parseInt($('#vspgclass').val(),10) || 0;
+			var vspg = parseInt($('#vspg').val(),10) || 0;
+			var vsmobtype = parseInt($('#vsmobtype').val(),10) || 0;
+			var vsmob = parseInt($('#vsmob').val(),10) || 0;
+			var enemyspdef = parseInt($('#enemyspdef').val(),10) || 0;
+
+			console.log("pgclass = "+vspgclass+", pg = "+vspg+", leadersDone = "+leadersDone+", tugyi: "+tugyiDone+
+					"\nfrenzy: "+frenzy+", fear: "+fear+", blessing: "+blessing+", average: "+average);
+
+			return {
+				I: {
+					pg: (1 + vspgclass / 100.) * (1 + vspg / 100.) * (leadersDone ? 1.08 : 1) * (tugyiDone ? 1.1 : 1),
+					mob: (1 + vsmobtype / 100.) * (1 + vsmob / 100.) * (tugyiDone ? 1.1 : 1),
+				},
+				II: {
+					pg: (1 - enemyspdef / 100.) * (1 - blessing) * (1 - fear) * (1 + frenzy / 2.),
+					mob: 1.,
+				},
+				III: {
+					pg: (1 + average / 100.) * (darkProtect ? 0.66 : 1),
+					mob: (1 + average / 100.),
+				}
+			};
 		}
 	};

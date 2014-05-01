@@ -7,7 +7,7 @@ $0 !~ /^#.*/ {
 	split(name,a,"(");
 	name = a[1];
 	gsub("_"," ",name);
-	gsub("'","\'",name);
+	gsub("'","\\'",name);
 	name = substr(name,0,length(name)-1);
 	if(length(name) == 0)
 		next;
@@ -19,6 +19,7 @@ $0 !~ /^#.*/ {
 	for(i = 0; i < 10; ++i) {
 		atkmin[i] = $(2+i);
 		atkmax[i] = $(12+i);
+		atkspeed[i] = $(23+i);
 	}
 	type = $(NF);
 	if(type == "SPADONE")
@@ -46,6 +47,10 @@ $0 !~ /^#.*/ {
 	for(i = 0; i < 9; ++i)
 		printf atkmax[i]", ";
 	print atkmin[9]"],"
+	printf "\t\tatkspeed: [";
+	for(i = 0; i < 9; ++i)
+		printf atkspeed[i]", ";
+	print atkspeed[9]"],"
 	print "\t\ttype: '"type"'";
 	print "\t},";
 }
