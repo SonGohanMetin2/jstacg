@@ -3,8 +3,8 @@
  * @license GNU GPL v3
  */
 
-if(!tacgtacgGlobals)
-	var tacgtacgGlobals = {
+if(!tacgGlobals)
+	var tacgGlobals = {
 		maxLevel: 105,
 		serverScriptURL: 'foo.php',
 		xmlhttp: {},	// the AJAX object
