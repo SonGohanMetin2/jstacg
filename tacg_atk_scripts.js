@@ -227,7 +227,7 @@ if(!tacgCalculator)
 				pgSex = params.pgSex;
 			var overlimit = false;
 
-			if(!weapon) return atkspeed / 100.;
+			if(!weapon) return [atkspeed / 100., null];
 			if(atkspeed > tacgGlobals.maxAtkSpeed) {
 				overlimit = true;
 				atkspeed = tacgGlobals.maxAtkSpeed;
@@ -294,6 +294,7 @@ if(!tacgCalculator)
 			var pgfeet = '', pghorse = '', mobfeet = '', mobhorse = '';
 			params.onFeet = false;
 			hitsPerSecondHorse = this.calcAtkSpeed(params);
+			console.log("hitspersecond = "+hitsPerSecondFeet[0]);
 			if(hitsPerSecondFeet[0] === '?') {
 				pgfeet = mobfeet = '?';
 			} else {
