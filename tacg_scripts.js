@@ -186,17 +186,22 @@ if(!tacgUtils)
 					var sublevel = element.value.substring(1);
 					if(isNaN(sublevel) || sublevel < 1 || sublevel > 10)
 						element.value = 0;
-				} else if(element.value.toLowerCase() !== 'p')
+				} else if(element.value.toLowerCase() === 'p') {
+					element.value = 'P';
+				} else {
 					element.value = 0;
+				}
 			}
 		},
 		toIntLv: function (level) {
 			var sublevel;
+			//console.log("level: "+level+" level? "+(!!level)+", parseInt(level,10) = "+parseInt(level,10));
 			if(!level) return 0;
 			if(parseInt(level, 10) === level) return level;
 			if(level.toLowerCase().startsWith('m') || level.toLowerCase().startsWith('g')) {
 				sublevel = level.substring(1);
-				if(parseInt(sublevel, 10) === level) {
+				//console.log("sublevel = "+sublevel+", parseInt="+parseInt(sublevel,10));
+				if(parseInt(sublevel, 10) === +sublevel) {
 					if(level.charAt(0).toLowerCase() === 'm') return (+sublevel) + 20;
 					else return (+sublevel) + 30;
 				}

@@ -87,10 +87,10 @@
           <th class="parname">DEX</th>
           <td><input type="text" id='dex' onchange="tacgUtils.checkStatus(this)" /></td>
         </tr>
-        <tr>
-          <th class="parname">Bonus VA</th>
-          <td><input type="text" id='bonusva' /></td>
-        </tr>
+	<tr>
+	  <th class="resname">VA totale</th>
+	  <td><input type="text" id='totalva' disabled='disabled'></td>
+	</tr>
         <tr>
           <th class="parname" id="aura_th"></th>
           <td id="aura_td"><input type="text" id="auralv" onchange="tacgUtils.checkSkillLevel(this)" /></td>
@@ -116,7 +116,7 @@
 
     <!-- +++++++++++++++++++++ WEAPON +++++++++++++++++++++++++ -->
     <div id="weapon" class="ui-widget">
-      <form action='' id="quests_form">
+      <!--<form action='' id="quests_form">-->
          <label for="weapon_name"><span class="parname" style="width: 100%; font-weight: normal; margin: 0 0 2px 0;">Arma:</span>
            <input id="weapon_name" type="text" style="width: 100%;" onkeyup="tacgUtils.showWeaponHint(this.value)" />
          </label>
@@ -134,7 +134,7 @@
            <option value="9">+9</option>
          </select>
          </div>
-      </form>
+      <!--</form>-->
     </div>
 
     <!-- +++++++++++++++++++++ RESULTS +++++++++++++++++++++++++ -->
@@ -168,32 +168,35 @@
     <div id="bonus">
       <table id="bonus_table">
         <tr>
-          <th><span class="parname">Forte vs Mostri</span></th>
+          <th class="parname">Forte vs Mostri</th>
           <td><input id="vsmob" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
-          <th><span class="parname">Forte vs <i>tipo Mob</i></span></th>
+          <th class="parname">Forte vs <i>tipo Mob</i></th>
           <td><input id="vsmobtype" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
         </tr>
         <tr>
-          <th><span class="parname">Forte vs Mezzi</span></th>
+          <th class="parname">Forte vs Mezzi</th>
           <td><input id="vshuman" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
-          <th><span class="parname">Forte vs <i>classe PG</i></span></th>
+          <th class="parname">Forte vs <i>classe PG</i></th>
           <td><input id="vspgclass" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
         </tr>
         <tr>
-          <th><span class="parname">Danni Medi</span></th>
+          <th class="parname">Danni Medi</th>
           <td><input id="averagedmg" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
-          <th><span class="parname">Bonus Attacco</span></th>
+          <th class="parname">Bonus Attacco</th>
           <td><input id="bonusatk" type="text" /></td>
         </tr>
         <tr>
-          <th><span class="parname">Difesa nemica</span></th>
+          <th class="parname">Difesa nemica</th>
           <td><input id="enemydef" type="text" /></td>
-          <th><span class="parname">Dif. specifica nem.</span></th>
+          <th class="parname">Dif. specifica nem.</th>
           <td><input id="enemyspdef" type="text" onchange="tacgUtils.fixPerc(this)" /></td>
         </tr> 
 	<tr>
-	  <th><span class="parname">Int nemica</span></th>
+	  <th class="parname">Int nemica</th>
 	  <td><input id="enemyint" type="text" onchange="tacgUtils.checkStatus(this)" /></td>
+          <th class="parname">Bonus VA</th>
+          <td><input type="text" id='bonusva' /></td>
+        </tr>
 	</tr>
       </table>
       <div id="enemyskill">

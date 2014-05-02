@@ -6,21 +6,36 @@
 if(!tacgCalculator)
 	var tacgCalculator = {
 		calculateAtk: function () {
-			var weapon = $('#weapon_name').val();
+			var weaponName = $('#weapon_name').val();
+			var weapon = tacgGlobals.weapons[weaponName];
 			var up = +$('#weapon_up').val();
-			var atkmin = (tacgGlobals.weapons[weapon] && tacgGlobals.weapons[weapon].atkmin[up]) || 0;
-			var atkmax = (tacgGlobals.weapons[weapon] && tacgGlobals.weapons[weapon].atkmax[up]) || 0;
+			var atkmin = (weapon && weapon.atkmin[up]) || 0;
+			var atkmax = (weapon && weapon.atkmax[up]) || 0;
 			var baseTheoAtk = this.calcTheoAtk(null, null);
-			var finalTheoAtk = atkmin ? this.calcTheoAtk(tacgGlobals.weapons[weapon], up) : baseTheoAtk;
-			var finalEffAtk = this.calcEffAtk(tacgGlobals.weapons[weapon], up); 
-			var finalEffAtkBonus = this.calcEffAtkBonus(tacgGlobals.weapons[weapon], up);
+			var finalTheoAtk = atkmin ? this.calcTheoAtk(weapon, up) : baseTheoAtk;
+			var finalEffAtk = this.calcEffAtk(weapon, up); 
+			var finalEffAtkBonus = this.calcEffAtkBonus(weapon, up, false);
+			var piercingDamage = this.calcEffAtkBonus(weapon, up, true);
+			var totalAtkSpeed = 100 + 
+					((weapon && weapon.atkspeed[up]) || 0) +
+					(+$('#bonusva').val()) + 
+					($('#frenzy_td').prop('visibility') !== 'hidden' && 
+						tacgGlobals.skills['frenzy']({}, tacgUtils.toIntLv($('#frenzylv').val())));
+			var dps = this.calcDPS(weapon, up, finalEffAtkBonus, totalAtkSpeed);
 
+			$('#totalva').val(totalAtkSpeed);
 			$('#res_base_atk').html(baseTheoAtk[0]);	
 			$('#res_weapon_atk').html(atkmin + ' - ' + atkmax);
 			$('#res_final_theo_atk').html(finalTheoAtk[0] + " - " + finalTheoAtk[1]);
 			$('#res_final_eff_atk').html(finalEffAtk[0] + " - " + finalEffAtk[1]);
 			$('#res_eff_atk_bonus_pg').html(finalEffAtkBonus['pg'][0] + " - " + finalEffAtkBonus['pg'][1]);
-			$('#res_eff_atk_bonus_mob').html(finalEffAtkBonus['mob'][1] + " - " + finalEffAtkBonus['mob'][1]);
+			$('#res_eff_atk_bonus_mob').html(finalEffAtkBonus['mob'][0] + " - " + finalEffAtkBonus['mob'][1]);
+			$('#res_dps_feet_pg').html(dps['pg']['feet']);
+			$('#res_dps_feet_mob').html(dps['mob']['feet']);
+			$('#res_dps_horse_pg').html(dps['pg']['horse']);
+			$('#res_dps_horse_mob').html(dps['mob']['horse']);
+			$('#res_pierce_pg').html(piercingDamage['pg'][0] + " - " + piercingDamage['pg'][1]);
+			$('#res_pierce_mob').html(piercingDamage['mob'][0] + " - " + piercingDamage['mob'][1]);
 		},
 		/**
 		 * Calculate base theoretical attack with the 1st Mystikal-Gohan Law
@@ -93,19 +108,23 @@ if(!tacgCalculator)
 			var enemyDefense = +$('#enemydef').val() || 0;
 			var powerups = this.powerups();
 			var bonus = this.bonus();
-			console.log("enDef = "+enemyDefense+"\nbonus="+bonus.I['mob']+"\npow = "+powerups);
+			//console.log("enDef = "+enemyDefense+"\npow = "+powerups);
+			//console.log("bonus = { I : ["+bonus.I['pg']+", "+bonus.I['mob']+"] },"+
+			//		"\n{ II : ["+bonus.II['pg']+", "+bonus.II['mob']+"] },"+
+			//		"\n{ III : ["+bonus.III['pg']+", "+bonus.III['mob']+"] }");
+			//console.log("enDef * bonus II  = "+(enemyDefense*bonus.II['pg']));
 			return {
 				pg: [
-					Math.floor(Math.max(0,(effAtk[0] + powerups) * bonus.I['pg'] - enemyDefense * bonus.II['pg'] + 
-						(piercing ? enemyDefense : 0)) * bonus.III['pg']),
-					Math.floor(Math.max(0,(effAtk[1] + powerups) * bonus.I['pg'] - enemyDefense * bonus.II['pg'] + 
-						(piercing ? enemyDefense : 0)) * bonus.III['pg'])
+					Math.floor(Math.max(0,(effAtk[0] + powerups) * bonus.I['pg'] - enemyDefense) * bonus.II['pg'] + 
+						(piercing ? enemyDefense : 0) * bonus.III['pg']),
+					Math.floor(Math.max(0,(effAtk[1] + powerups) * bonus.I['pg'] - enemyDefense) * bonus.II['pg'] + 
+						(piercing ? enemyDefense : 0) * bonus.III['pg'])
 				],
 				mob: [
-					Math.floor(Math.max(0,(effAtk[0] + powerups) * bonus.I['mob'] - enemyDefense * bonus.II['mob'] + 
-						(piercing ? enemyDefense : 0)) * bonus.III['mob']),
-					Math.floor(Math.max(0,(effAtk[1] + powerups) * bonus.I['mob'] - enemyDefense * bonus.II['mob'] + 
-						(piercing ? enemyDefense : 0)) * bonus.III['mob'])
+					Math.floor(Math.max(0,(effAtk[0] + powerups) * bonus.I['mob'] - enemyDefense) * bonus.II['mob'] + 
+						(piercing ? enemyDefense : 0) * bonus.III['mob']),
+					Math.floor(Math.max(0,(effAtk[1] + powerups) * bonus.I['mob'] - enemyDefense) * bonus.II['mob'] + 
+						(piercing ? enemyDefense : 0) * bonus.III['mob'])
 				]
 			};
 		},
@@ -150,7 +169,6 @@ if(!tacgCalculator)
 		 * Calculate bonuses.
 		 * @return { I: { pg, mob }, II: ... }
 		 */
-		// FIXME
 		bonus: function () {
 			var pgStats = {
 				level: +$('#levelpg').val(),
@@ -161,11 +179,11 @@ if(!tacgCalculator)
 			var tugyiDone = !!$('input[name=quest][value=quest_tugyi]').prop('checked');
 			var leadersDone = !!$('input[name=quest][value=quest_leader]').prop('checked');
 			var blessing = ($('input[name=enemy_skill][value=blessing]').prop('checked') && 
-						tacgGlobals.skills['blessing'](pgStats, tacgUtils.toIntLv($('#blessing_lv').val()))) || 0;
+						tacgGlobals.skills['blessing'](pgStats, tacgUtils.toIntLv($('input[name=blessing_lv]').val()))) || 0;
 			var fear = ($('input[name=enemy_skill][value=fear]').prop('checked') &&
-						tacgGlobals.skills['fear'](pgStats, tacgUtils.toIntLv($('#fear_lv').val()))) || 0;
+						tacgGlobals.skills['fear'](pgStats, tacgUtils.toIntLv($('input[name=fear_lv]').val()))) || 0;
 			var frenzy = ($('input[name=enemy_skill][value=frenzy]').prop('checked') &&
-						tacgGlobals.skills['frenzy'](pgStats, tacgUtils.toIntLv($('#frenzy_lv').val()))) || 0;
+						tacgGlobals.skills['frenzy'](pgStats, tacgUtils.toIntLv($('input[name=frenzy_lv]').val()))) || 0;
 			var average = parseInt($('#averagedmg').val(), 10) || 0;
 			var darkProtect = !!$('#darkprotection').prop('checked');
 			var vspgclass = parseInt($('#vspgclass').val(),10) || 0;
@@ -174,21 +192,112 @@ if(!tacgCalculator)
 			var vsmob = parseInt($('#vsmob').val(),10) || 0;
 			var enemyspdef = parseInt($('#enemyspdef').val(),10) || 0;
 
-			console.log("pgclass = "+vspgclass+", pg = "+vspg+", leadersDone = "+leadersDone+", tugyi: "+tugyiDone+
-					"\nfrenzy: "+frenzy+", fear: "+fear+", blessing: "+blessing+", average: "+average);
-
+			//console.log("pgclass = "+vspgclass+", pg = "+vspg+", leadersDone = "+leadersDone+", tugyi: "+tugyiDone+
+			//		"\nfrenzy: "+frenzy+", fear: "+fear+", blessing: "+blessing+", average: "+average);
+			//console.log("skills lv: blessing = "+tacgUtils.toIntLv($('input[name=blessing_lv]').val()));
 			return {
 				I: {
 					pg: (1 + vspgclass / 100.) * (1 + vspg / 100.) * (leadersDone ? 1.08 : 1) * (tugyiDone ? 1.1 : 1),
 					mob: (1 + vsmobtype / 100.) * (1 + vsmob / 100.) * (tugyiDone ? 1.1 : 1),
 				},
 				II: {
-					pg: (1 - enemyspdef / 100.) * (1 - blessing) * (1 - fear) * (1 + frenzy / 2.),
+					pg: (1 - enemyspdef / 100.) * (1 - blessing / 100.) * (1 - fear / 100.) * (1 + frenzy / 200.),
 					mob: 1.,
 				},
 				III: {
 					pg: (1 + average / 100.) * (darkProtect ? 0.66 : 1),
 					mob: (1 + average / 100.),
+				}
+			};
+		},
+		/**
+		 * Calculate hits per second
+		 * @param weapon
+		 * @param up
+		 */
+		calcAtkSpeed: function (params) {
+			var 	weapon = params.weapon,
+				up = params.up,
+				atkspeed = params.atkspeed,
+				onFeet = params.onFeet,
+				pgSex = params.pgSex;
+
+			if(!weapon) return atkspeed / 100.;
+			if(atkspeed > 165) return '?';
+
+			if(onFeet) 
+				switch(weapon.type) {
+
+				case 'twohanded':
+					return 0.009 * atkspeed + 0.1;
+				case 'sword':
+				case 'bell':
+				case 'fan':
+					return 0.014 * atkspeed;
+				case 'dagger':
+					return 0.021 * atkspeed;
+				case 'bow':
+					if(pgSex === 'female' || pgSex === 'f')
+						return 0.009 * atkspeed;
+					else
+						return 0.006 * atkspeed;
+				default:
+					return '?';
+				}
+			else
+				switch(weapon.type) {
+
+				case 'twohanded':
+					return 0.0175 * atkspeed + 0.2;
+				case 'sword':
+				case 'dagger':
+					return 0.018 * atkspeed;
+				case 'bell':
+					if(atkspeed < 145)
+						return 0.0215 * atkspeed;
+					else if(atkspeed > 155)
+						return 0.014 * atkspeed;
+					else return '?';
+				default:
+					return '?';
+				}
+		},
+		/**
+		 * Calculate Damage Per Second
+		 * @param weapon Equipped weapon or null
+		 * @param up Weapon up
+		 * @param damage The effective damage in form { pg: [min, max], mob: [min, max] }
+		 * @return { pg: { feet, horse }, mob: { feet, horse } }
+		 */
+		calcDPS: function (weapon, up, damage, atkspeed) {
+			var params = {
+				weapon: weapon,
+				up: up,
+				atkspeed: atkspeed,
+				pgSex: $('input[type=radio][name=sex]').val(),
+				onFeet: true
+			};
+			//console.log('atkspeed = '+params.atkspeed);
+			//console.log('frenzy: '+ ($('#frenzy_td').prop('visibility') !== 'hidden' && 
+			//	tacgGlobals.skills['frenzy']({},tacgUtils.toIntLv(($('#frenzylv').val())))));
+			//console.log("bonusva: "+(+$('#bonusva').val()));
+			var hitsPerSecondFeet = this.calcAtkSpeed(params);
+			var hitsPerSecondHorse;
+			params.onFeet = false;
+			hitsPerSecondHorse = this.calcAtkSpeed(params);
+			//console.log("hps = "+hitsPerSecondFeet+", "+hitsPerSecondHorse);
+			return {
+				pg: {
+					feet: 	hitsPerSecondFeet === '?' ? '?' :
+						Math.floor((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondFeet),
+					horse: 	hitsPerSecondHorse === '?' ? '?' :
+						Math.floor((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondHorse),
+				},
+				mob: {
+					feet: 	hitsPerSecondFeet === '?' ? '?' :
+						Math.floor((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondFeet),
+					horse: 	hitsPerSecondHorse === '?' ? '?' :
+						Math.floor((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondHorse),
 				}
 			};
 		}

@@ -65,6 +65,9 @@
 	width: 50px;
 	padding: 1px;
 }
+#status_table th.resname {
+	font-size: 100%;
+}
 #quests {
 	width: auto;
 	overflow: hidden;

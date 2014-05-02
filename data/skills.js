@@ -15,21 +15,27 @@ if(!tacgGlobals.skills)
 			0.85,0.88,0.91,0.94,0.98,1.02,1.06,1.10,1.15,1.25
 		],
 		aura: function (pg, level) {
+			if(level == 0) return 0;
 			return Math.floor((100 + 3 * pg.level + pg.str) * this.k[level]) || 0;
 		},
 		enchantedblade: function (pg, level) {
+			if(level == 0) return 0;
 			return Math.floor((3 * pg.iq + 2 * pg.level) * this.k[level]) || 0;
 		},
 		attackup: function (pg, level) {
+			if(level == 0) return 0;
 			return Math.floor(5 + (15 + pg.iq / 5) * this.k[level]) || 0;
 		},
 		frenzy: function (pg, level) {
-			return (50 * this.k[level] / 2.) || 0;
+			if(level == 0) return 0;
+			return (50 * this.k[level]) || 0;
 		},
 		fear: function (pg, level) {
+			if(level == 0) return 0;
 			return (1 + 29 * this.k[level]) || 0;
 		},
 		blessing: function (pg, level) {
+			if(level == 0) return 0;
 			return ((4 * this.k[level] + 1) / (2 * this.k[level] + 3) * (0.3 * pg.iq + 5)) || 0;
 		},
 	};
