@@ -16,11 +16,12 @@ if(!tacgCalculator)
 			var finalEffAtk = this.calcEffAtk(weapon, up); 
 			var finalEffAtkBonus = this.calcEffAtkBonus(weapon, up, false);
 			var piercingDamage = this.calcEffAtkBonus(weapon, up, true);
-			var totalAtkSpeed = 100 + 
+			var totalAtkSpeed = Math.floor(100 + 
 					((weapon && weapon.atkspeed[up]) || 0) +
 					(+$('#bonusva').val()) + 
+					($('input[name=quest][value=quest_cursebook]').prop('checked') ? 5 : 0) +
 					($('#frenzy_td').prop('visibility') !== 'hidden' && 
-						tacgGlobals.skills['frenzy']({}, tacgUtils.toIntLv($('#frenzylv').val())));
+						tacgGlobals.skills['frenzy']({}, tacgUtils.toIntLv($('#frenzylv').val()))));
 			var dps = this.calcDPS(weapon, up, finalEffAtkBonus, totalAtkSpeed);
 
 			$('#totalva').val(totalAtkSpeed);
@@ -185,13 +186,13 @@ if(!tacgCalculator)
 			var frenzy = ($('input[name=enemy_skill][value=frenzy]').prop('checked') &&
 						tacgGlobals.skills['frenzy'](pgStats, tacgUtils.toIntLv($('input[name=frenzy_lv]').val()))) || 0;
 			var average = parseInt($('#averagedmg').val(), 10) || 0;
-			var darkProtect = !!$('#darkprotection').prop('checked');
+			var darkProtect = !!$('input[name=enemy_skill][value=darkprotection]').prop('checked');
 			var vspgclass = parseInt($('#vspgclass').val(),10) || 0;
 			var vspg = parseInt($('#vspg').val(),10) || 0;
 			var vsmobtype = parseInt($('#vsmobtype').val(),10) || 0;
 			var vsmob = parseInt($('#vsmob').val(),10) || 0;
 			var enemyspdef = parseInt($('#enemyspdef').val(),10) || 0;
-
+			
 			//console.log("pgclass = "+vspgclass+", pg = "+vspg+", leadersDone = "+leadersDone+", tugyi: "+tugyiDone+
 			//		"\nfrenzy: "+frenzy+", fear: "+fear+", blessing: "+blessing+", average: "+average);
 			//console.log("skills lv: blessing = "+tacgUtils.toIntLv($('input[name=blessing_lv]').val()));
@@ -289,15 +290,15 @@ if(!tacgCalculator)
 			return {
 				pg: {
 					feet: 	hitsPerSecondFeet === '?' ? '?' :
-						Math.floor((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondFeet),
+						Math.round((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondFeet),
 					horse: 	hitsPerSecondHorse === '?' ? '?' :
-						Math.floor((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondHorse),
+						Math.round((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondHorse),
 				},
 				mob: {
 					feet: 	hitsPerSecondFeet === '?' ? '?' :
-						Math.floor((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondFeet),
+						Math.round((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondFeet),
 					horse: 	hitsPerSecondHorse === '?' ? '?' :
-						Math.floor((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondHorse),
+						Math.round((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondHorse),
 				}
 			};
 		}
