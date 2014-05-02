@@ -1,6 +1,8 @@
 #!/usr/bin/awk -f
 # script used to convert the jacg weapon database into
 # a javascript object.
+# @author Son Gohan
+# @license GNU GPL v3
 
 $0 !~ /^#.*/ {
 	name = $1;
@@ -42,7 +44,7 @@ $0 !~ /^#.*/ {
 	printf "\t\tatkmin: [";
 	for(i = 0; i < 9; ++i)
 		printf atkmin[i]", ";
-	print atkmin[9]" ],"
+	print atkmin[9]"],"
 	printf "\t\tatkmax: [";
 	for(i = 0; i < 9; ++i)
 		printf atkmax[i]", ";
