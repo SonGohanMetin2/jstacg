@@ -16,6 +16,7 @@ if(!tacgCalculator)
 			var finalEffAtk = this.calcEffAtk(weapon, up); 
 			var finalEffAtkBonus = this.calcEffAtkBonus(weapon, up, false);
 			var piercingDamage = this.calcEffAtkBonus(weapon, up, true);
+			var powerups = this.powerups();
 			var totalAtkSpeed = Math.floor(100 + 
 					((weapon && weapon.atkspeed[up]) || 0) +
 					(+$('#bonusva').val()) + 
@@ -25,10 +26,10 @@ if(!tacgCalculator)
 			var dps = this.calcDPS(weapon, up, finalEffAtkBonus, totalAtkSpeed);
 
 			$('#totalva').val(totalAtkSpeed);
-			$('#res_base_atk').html(baseTheoAtk[0]);	
+			$('#res_base_atk').html(baseTheoAtk[0] + powerups);	
 			$('#res_weapon_atk').html(atkmin + ' - ' + atkmax);
-			$('#res_final_theo_atk').html(finalTheoAtk[0] + " - " + finalTheoAtk[1]);
-			$('#res_final_eff_atk').html(finalEffAtk[0] + " - " + finalEffAtk[1]);
+			$('#res_final_theo_atk').html((finalTheoAtk[0] + powerups) + " - " + (finalTheoAtk[1] + powerups));
+			$('#res_final_eff_atk').html((finalEffAtk[0] + powerups) + " - " + (finalEffAtk[1] + powerups));
 			$('#res_eff_atk_bonus_pg').html(finalEffAtkBonus['pg'][0] + " - " + finalEffAtkBonus['pg'][1]);
 			$('#res_eff_atk_bonus_mob').html(finalEffAtkBonus['mob'][0] + " - " + finalEffAtkBonus['mob'][1]);
 			$('#res_dps_feet_pg').html(dps['pg']['feet']);
@@ -53,7 +54,7 @@ if(!tacgCalculator)
 			var atkmax = (weapon && weapon.atkmax && weapon.atkmax[up]) || 0;
 			var stat;
 
-			switch($('#classpg_select').val()) {
+			switch($('#classpg').val()) {
 
 			case 'warrior':
 			case 'sura':
@@ -87,7 +88,7 @@ if(!tacgCalculator)
 			var growth = tacgGlobals.weapons.growth;
 			var stat;
 
-			switch($('#classpg_select').val()) {
+			switch($('#classpg').val()) {
 
 			case 'warrior':
 			case 'sura':
@@ -110,22 +111,22 @@ if(!tacgCalculator)
 			var powerups = this.powerups();
 			var bonus = this.bonus();
 			//console.log("enDef = "+enemyDefense+"\npow = "+powerups);
-			//console.log("bonus = { I : ["+bonus.I['pg']+", "+bonus.I['mob']+"] },"+
-			//		"\n{ II : ["+bonus.II['pg']+", "+bonus.II['mob']+"] },"+
-			//		"\n{ III : ["+bonus.III['pg']+", "+bonus.III['mob']+"] }");
+			console.log("bonus = { I : ["+bonus.I['pg']+", "+bonus.I['mob']+"] },"+
+					"\n{ II : ["+bonus.II['pg']+", "+bonus.II['mob']+"] },"+
+					"\n{ III : ["+bonus.III['pg']+", "+bonus.III['mob']+"] }");
 			//console.log("enDef * bonus II  = "+(enemyDefense*bonus.II['pg']));
 			return {
 				pg: [
-					Math.floor(Math.max(0,(effAtk[0] + powerups) * bonus.I['pg'] - enemyDefense) * bonus.II['pg'] + 
-						(piercing ? enemyDefense : 0) * bonus.III['pg']),
-					Math.floor(Math.max(0,(effAtk[1] + powerups) * bonus.I['pg'] - enemyDefense) * bonus.II['pg'] + 
-						(piercing ? enemyDefense : 0) * bonus.III['pg'])
+					Math.floor((Math.max(0,(effAtk[0] + powerups) * bonus.I['pg'] - enemyDefense) * bonus.II['pg'] + 
+						(piercing ? enemyDefense : 0)) * bonus.III['pg']),
+					Math.floor((Math.max(0,(effAtk[1] + powerups) * bonus.I['pg'] - enemyDefense) * bonus.II['pg'] + 
+						(piercing ? enemyDefense : 0)) * bonus.III['pg'])
 				],
 				mob: [
-					Math.floor(Math.max(0,(effAtk[0] + powerups) * bonus.I['mob'] - enemyDefense) * bonus.II['mob'] + 
-						(piercing ? enemyDefense : 0) * bonus.III['mob']),
-					Math.floor(Math.max(0,(effAtk[1] + powerups) * bonus.I['mob'] - enemyDefense) * bonus.II['mob'] + 
-						(piercing ? enemyDefense : 0) * bonus.III['mob'])
+					Math.floor((Math.max(0,(effAtk[0] + powerups) * bonus.I['mob'] - enemyDefense) * bonus.II['mob'] + 
+						(piercing ? enemyDefense : 0)) * bonus.III['mob']),
+					Math.floor((Math.max(0,(effAtk[1] + powerups) * bonus.I['mob'] - enemyDefense) * bonus.II['mob'] + 
+						(piercing ? enemyDefense : 0)) * bonus.III['mob'])
 				]
 			};
 		},
@@ -143,15 +144,15 @@ if(!tacgCalculator)
 
 			case 'warrior':
 				if(jobpg === 'body')
-					pow += tacgGlobals.skills['aura'](pgStats, +$('#auralv').val());
+					pow += tacgGlobals.skills['aura'](pgStats, tacgUtils.toIntLv($('#auralv').val()));
 				break;
 			case 'sura':
 				if(jobpg === 'mirage') 
-					pow += tacgGlobals.skills['enchantedblade'](pgStats, +$('#auralv').val());
+					pow += tacgGlobals.skills['enchantedblade'](pgStats, tacgUtils.toIntLv($('#auralv').val()));
 				break;
 			case 'shaman':
 				if(jobpg === 'healing')
-					pow += tacgGlobals.skills['attackup'](pgStats, +$('#auralv').val());
+					pow += tacgGlobals.skills['attackup'](pgStats, tacgUtils.toIntLv($('#auralv').val()));
 				break;
 			}
 			
@@ -164,6 +165,7 @@ if(!tacgCalculator)
 			if($('#bonusatk').val())
 				pow += (+$('#bonusatk').val());
 
+			console.log("classpg = "+$('#classpg').val()+", pow = "+pow);
 			return pow;
 		},
 		/**
@@ -215,6 +217,7 @@ if(!tacgCalculator)
 		 * Calculate hits per second
 		 * @param weapon
 		 * @param up
+		 * @return [dps, overlimit]
 		 */
 		calcAtkSpeed: function (params) {
 			var 	weapon = params.weapon,
@@ -222,26 +225,30 @@ if(!tacgCalculator)
 				atkspeed = params.atkspeed,
 				onFeet = params.onFeet,
 				pgSex = params.pgSex;
+			var overlimit = false;
 
 			if(!weapon) return atkspeed / 100.;
-			if(atkspeed > 165) return '?';
+			if(atkspeed > tacgGlobals.maxAtkSpeed) {
+				overlimit = true;
+				atkspeed = tacgGlobals.maxAtkSpeed;
+			}
 
 			if(onFeet) 
 				switch(weapon.type) {
 
 				case 'twohanded':
-					return 0.009 * atkspeed + 0.1;
+					return [0.009 * atkspeed + 0.1, overlimit];
 				case 'sword':
 				case 'bell':
 				case 'fan':
-					return 0.014 * atkspeed;
+					return [0.014 * atkspeed, overlimit];
 				case 'dagger':
-					return 0.021 * atkspeed;
+					return [0.021 * atkspeed, overlimit];
 				case 'bow':
 					if(pgSex === 'female' || pgSex === 'f')
-						return 0.009 * atkspeed;
+						return [0.009 * atkspeed, overlimit];
 					else
-						return 0.006 * atkspeed;
+						return [0.006 * atkspeed, overlimit];
 				default:
 					return '?';
 				}
@@ -249,15 +256,15 @@ if(!tacgCalculator)
 				switch(weapon.type) {
 
 				case 'twohanded':
-					return 0.0175 * atkspeed + 0.2;
+					return [0.0175 * atkspeed + 0.2, overlimit];
 				case 'sword':
 				case 'dagger':
-					return 0.018 * atkspeed;
+					return [0.018 * atkspeed, overlimit];
 				case 'bell':
 					if(atkspeed < 145)
-						return 0.0215 * atkspeed;
+						return [0.0215 * atkspeed, overlimit];
 					else if(atkspeed > 155)
-						return 0.014 * atkspeed;
+						return [0.014 * atkspeed, overlimit];
 					else return '?';
 				default:
 					return '?';
@@ -284,21 +291,34 @@ if(!tacgCalculator)
 			//console.log("bonusva: "+(+$('#bonusva').val()));
 			var hitsPerSecondFeet = this.calcAtkSpeed(params);
 			var hitsPerSecondHorse;
+			var pgfeet = '', pghorse = '', mobfeet = '', mobhorse = '';
 			params.onFeet = false;
 			hitsPerSecondHorse = this.calcAtkSpeed(params);
-			//console.log("hps = "+hitsPerSecondFeet+", "+hitsPerSecondHorse);
+			if(hitsPerSecondFeet[0] === '?') {
+				pgfeet = mobfeet = '?';
+			} else {
+				if(hitsPerSecondFeet[1]) 
+					pgfeet = mobfeet = '>';
+				pgfeet += Math.round((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondFeet[0]);
+				mobfeet += Math.round((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondFeet[0]);
+			}
+			if(hitsPerSecondHorse[0] === '?') {
+				pghorse = mobhorse = '?';
+			} else {
+				if(hitsPerSecondHorse[1])
+					pghorse = mobhorse = '>';
+				pghorse += Math.round((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondHorse[0]);
+				mobhorse += Math.round((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondHorse[0]);
+			}
+				
 			return {
 				pg: {
-					feet: 	hitsPerSecondFeet === '?' ? '?' :
-						Math.round((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondFeet),
-					horse: 	hitsPerSecondHorse === '?' ? '?' :
-						Math.round((damage['pg'][0] + damage['pg'][1]) / 2. * hitsPerSecondHorse),
+					feet: pgfeet,
+					horse: pghorse
 				},
 				mob: {
-					feet: 	hitsPerSecondFeet === '?' ? '?' :
-						Math.round((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondFeet),
-					horse: 	hitsPerSecondHorse === '?' ? '?' :
-						Math.round((damage['mob'][0] + damage['mob'][1]) / 2. * hitsPerSecondHorse),
+					feet: mobfeet,
+					horse: mobhorse
 				}
 			};
 		}

@@ -49,7 +49,7 @@
       <div id="pg_main_prop">
         <form action=''>
           <p><span class="parname">Classe PG</span>
-             <select id="classpg_select" onchange="tacgUtils.setJobPG(this.value);">
+             <select id="classpg" onchange="tacgUtils.setJobPG(this.value);">
                <option value="warrior">Guerriero/a</option>
                <option value="sura">Sura</option>
                <option value="ninja">Ninja</option>
@@ -62,7 +62,7 @@
           </p>
         </form>
         <p><span class="parname">Specializ</span>
-          <select id="jobpg_select" onchange="tacgUtils.updateAuraAndFrenzy(document.getElementById('classpg_select').value,this.value)">
+          <select id="jobpg" onchange="tacgUtils.updateAuraAndFrenzy(document.getElementById('classpg').value,this.value)">
             <option id="jobpg_1" value="none"></option>
             <option id="jobpg_2" value="none"></option>
           </select>
@@ -203,7 +203,7 @@
         <form id="enemy_skill" onchange="tacgUtils.updateEnemySkillInput()" onclick="tacgUtils.updateEnemySkillInput()">
           <p style="font-weight: bold; margin: 1px 0px 2px 2px;">Skill nemica:</p>
           <label>
-          <input type="radio" class="deselectable" name="enemy_skill" value="blessing" /><span class="label">Benediz.</span>
+          <input type="checkbox" class="deselectable" name="enemy_skill" value="blessing" /><span class="label">Benediz.</span>
           </label>
           <input type="text" name="blessing_lv" onchange="tacgUtils.checkSkillLevel(this)" /><br>
           <label>
@@ -223,7 +223,7 @@
   </div>
   <script>
         //Give initial value to Specializ. 
-        tacgUtils.setJobPG(document.getElementById('classpg_select').value);
+        tacgUtils.setJobPG(document.getElementById('classpg').value);
         //Setup deselectable radiobuttons
         (function ($) {
 		$('input[type=radio].deselectable').uncheckableRadio();

@@ -47,6 +47,8 @@ if (typeof Object.keys !== 'function') {
 
 if(!tacgGlobals.maxLevel)
 	tacgGlobals.maxLevel = 105;
+if(!tacgGlobals.maxAtkSpeed)
+	tacgGlobals.maxAtkSpeed = 165;
 
 if(!tacgUtils)
 	var tacgUtils = {
@@ -93,7 +95,7 @@ if(!tacgUtils)
 				job1.setAttribute('value','none');
 			}
 
-			document.getElementById('jobpg_select').selectedIndex = 0;
+			document.getElementById('jobpg').selectedIndex = 0;
 			this.updateAuraAndFrenzy(classPG,job1.value);
 
 			return true;
@@ -197,7 +199,7 @@ if(!tacgUtils)
 			var sublevel;
 			//console.log("level: "+level+" level? "+(!!level)+", parseInt(level,10) = "+parseInt(level,10));
 			if(!level) return 0;
-			if(parseInt(level, 10) === level) return level;
+			if(parseInt(level, 10) === +level) return +level;
 			if(level.toLowerCase().startsWith('m') || level.toLowerCase().startsWith('g')) {
 				sublevel = level.substring(1);
 				//console.log("sublevel = "+sublevel+", parseInt="+parseInt(sublevel,10));
@@ -218,22 +220,18 @@ if(!tacgUtils)
 			element.value = Math.floor(element.value.replace('%',''))+'%';
 		},
 		updateEnemySkillInput: function () {
-			switch($('input[name=enemy_skill]:checked').val()) {
+			switch($('input[type=radio][name=enemy_skill]:checked').val()) {
 		
-			case 'blessing':
-				$('input[name=blessing_lv]').removeAttr('disabled');
-				$('input[name=fear_lv], input[name=frenzy_lv]').attr('disabled','disabled');
-				break;
 			case 'fear':
 				$('input[name=fear_lv]').removeAttr('disabled');
-				$('input[name=blessing_lv], input[name=frenzy_lv]').attr('disabled','disabled');
+				$('input[name=frenzy_lv]').attr('disabled','disabled');
 				break;
 			case 'frenzy':
 				$('input[name=frenzy_lv]').removeAttr('disabled');
-				$('input[name=blessing_lv], input[name=fear_lv]').attr('disabled','disabled');
+				$('input[name=fear_lv]').attr('disabled','disabled');
 				break;
 			default:
-				$('input[name=blessing_lv], input[name=fear_lv], input[name=frenzy_lv]').attr('disabled','disabled');
+				$('input[name=fear_lv], input[name=frenzy_lv]').attr('disabled','disabled');
 				break;
 			}
 		},
