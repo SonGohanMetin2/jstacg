@@ -14,7 +14,7 @@ $0 !~ /^#.*/ {
 
 	level = a[2];
 	gsub("_"," ",level);
-	gsub(")","",level);
+	gsub("\\)","",level);
 	sub("Liv ","",level);
 	for(i = 0; i < 10; ++i) {
 		atkmin[i] = $(2+i);
@@ -46,7 +46,7 @@ $0 !~ /^#.*/ {
 	printf "\t\tatkmax: [";
 	for(i = 0; i < 9; ++i)
 		printf atkmax[i]", ";
-	print atkmin[9]"],"
+	print atkmax[9]"],"
 	printf "\t\tatkspeed: [";
 	for(i = 0; i < 9; ++i)
 		printf atkspeed[i]", ";
