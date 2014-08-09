@@ -106,12 +106,12 @@
     <!-- +++++++++++++++++++++ QUESTS +++++++++++++++++++++++++ -->
     <div id="quests">
       <form action=''>
-        <input type="checkbox" name="quest" value="quest_cursebook" onchange="tacgUtils.updateQuests(this)"><label>Libri Maledizione</label><br>
-        <input type="checkbox" name="quest" value="quest_icemarble" onchange="tacgUtils.updateQuests(this)"><label>Palle di Ghiaccio</label><br>
-        <input type="checkbox" name="quest" value="quest_tugyi" onchange="tacgUtils.updateQuests(this)"><label>Tavole Tugyi</label><br>
-        <input type="checkbox" name="quest" value="quest_leader" onchange="tacgUtils.updateQuests(this)"><label>Notizie dei Capi</label><br>
-        <input type="checkbox" name="quest" value="quest_resentment" onchange="tacgUtils.updateQuests(this)"><label>Gioielli Invidia</label><br>
-        <input type="checkbox" name="quest" value="quest_wisdom"><label>Gioielli Saggezza</label><br>
+        <input type="checkbox" name="quest" value="quest_cursebook" id='q_curse' onchange="tacgUtils.updateQuests(this)"><label for='q_curse'>Libri Maledizione</label><br>
+        <input type="checkbox" name="quest" value="quest_icemarble" id='q_ice' onchange="tacgUtils.updateQuests(this)"><label for='q_ice'>Palle di Ghiaccio</label><br>
+        <input type="checkbox" name="quest" value="quest_tugyi" id='q_tugyi' onchange="tacgUtils.updateQuests(this)"><label for='q_tugyi'>Tavole Tugyi</label><br>
+        <input type="checkbox" name="quest" value="quest_leader" id='q_leader' onchange="tacgUtils.updateQuests(this)"><label for='q_leader'>Notizie dei Capi</label><br>
+        <input type="checkbox" name="quest" value="quest_resentment" id='q_res' onchange="tacgUtils.updateQuests(this)"><label for='q_res'>Gioielli Invidia</label><br>
+        <input type="checkbox" name="quest" value="quest_wisdom" id='q_wisdom'><label for='q_wisdom'>Gioielli Saggezza</label><br>
       </form>
     </div>
 
