@@ -1,7 +1,9 @@
 jstacg
 ======
 
-JavaScript client suite for the Metin2 Theoretical Attack Calculus Gear (TACG)
+JavaScript client suite for the Metin2 Theoretical Attack Calculus Gear (TACG). 
+
+This tool calculates the theoretical as well as the effective damage dealt by a Metin2 character considering all its bonuses/weapons/etc. It uses the empyrical game formulas found by metin2.it players Son Gohan and Mystikal, which can be found on <a href='http://wiki.metin2.it/index.php/Attacco'>this page</a> et al. (in Italian only, but the formulas themselves are quite self-explanatory).
 
 Using
 ======
