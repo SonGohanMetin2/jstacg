@@ -12,7 +12,7 @@ The tool can be used online as well as offline.
 
 Copying
 ======
-The JSTACG code is released as Open Source under the GNU GPL v3 license.
+The JSTACG code is released as free software under the GNU GPL v3 license.
 
 Contacts
 ======
