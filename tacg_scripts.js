@@ -2,49 +2,6 @@
  * @author Son Gohan (son.gohan.mt2@gmail.com) 
  * @license GNU GPL v3
  */
-
-// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
-if (typeof Object.keys !== 'function') {
-	Object.keys = (function () {
-		'use strict';
-		var hasOwnProperty = Object.prototype.hasOwnProperty,
-		hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
-		dontEnums = [
-		'toString',
-		'toLocaleString',
-		'valueOf',
-		'hasOwnProperty',
-		'isPrototypeOf',
-		'propertyIsEnumerable',
-		'constructor'
-		],
-		dontEnumsLength = dontEnums.length;
-
-		return function (obj) {
-			if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
-				throw new TypeError('Object.keys called on non-object');
-			}
-
-			var result = [], prop, i;
-
-			for (prop in obj) {
-				if (hasOwnProperty.call(obj, prop)) {
-					result.push(prop);
-				}
-			}
-
-			if (hasDontEnumBug) {
-				for (i = 0; i < dontEnumsLength; i++) {
-					if (hasOwnProperty.call(obj, dontEnums[i])) {
-						result.push(dontEnums[i]);
-					}
-				}
-			}
-			return result;
-		};
-	}());
-}
-
 if(!tacgGlobals.maxLevel)
 	tacgGlobals.maxLevel = 105;
 if(!tacgGlobals.maxAtkSpeed)
@@ -309,44 +266,3 @@ if(!tacgUtils)
         	},
 	}; // end tacgUtils
 
-/////////////////////////////////// AJAX FUNCTIONS //////////////////////////////////
-/* @param opts.str The string containing parameter of the GET request
- * @param opts.url The url of the server-side script (optional, default=tacgGlobals.serverScriptURL)
- * @param opts.func The function to call on ready state change
- */
-/*function loadXML(opts) {
-	if(window.XMLHttpRequest) {
-		xmlhttp = new XMLHttpRequest();
-	} else {
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); //M$ = suckers.
-	}
-
-	xmlhttp.onreadystatechange = opts.func;
-	
-	xmlhttp.open(
-		'GET',
-		opts.url+'?'+opts.str || tacgGlobals.serverScriptURL+'?'+opts.str,
-		opts.async || true
-	);
-	xmlhttp.send();
-}
-
-// big TODO: this function gets called whenever an UI component is changed.
-function calculateAtk() {
-	return;
-
-	// compose parameter string
-	var classpg = encodeURIComponent(document.getElementById('classpg_select').value);
-	var jobpg = encodeURIComponent(document.getElementById('jobpg_select').value);
-	var levelpg = encodeURIComponent(document.getElementById('levelpg').value);
-
-	var parstr = 'classpg='+classpg+'&jobpg='+jobpg+'&levelpg='+levelpg;
-
-	return loadXML({
-		str: parstr,
-		func: function () {
-			// TODO
-			//if(xmlhttp.readyState == 4 && xmlhttp.status == 200) 
-		}
-	});
-}*/

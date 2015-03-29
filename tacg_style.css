@@ -95,6 +95,7 @@
 	width: 90%;
 	margin: 5px;
 	text-align: center;
+	clear: left;
 	/*border: 1px solid #000066;*/
 }
 #results_table {
